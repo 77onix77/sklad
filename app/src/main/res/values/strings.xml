@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">sklad</string>
     <string name="add">add</string>
+    <string name="name_category">Название категории</string>
+    <string name="no_tile">Не введено название категории</string>
+    <string name="add_it">add</string>
 </resources>

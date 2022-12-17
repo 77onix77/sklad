@@ -4,8 +4,8 @@ import java.io.Serializable
 
 class Category(val name: String) : Serializable {
 
-    private val list: MutableList<Element> = mutableListOf()
+    val listEl: MutableList<Element> = mutableListOf()
 
-    fun addElement (el: Element) = list.add(el)
+    fun addElement (el: Element) = listEl.add(el)
 
 }
