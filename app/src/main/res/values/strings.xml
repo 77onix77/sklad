@@ -11,4 +11,5 @@
     <string name="current_balance">Укажите текущий остаток</string>
     <string name="krit_val">Значение, при котором остаток будет выделяться красным</string>
     <string name="toast_cat_message">Не заполнены все поля</string>
+    <string name="el_foto">foto</string>
 </resources>

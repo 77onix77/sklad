@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ElementActivity">
+
+    <TextView
+        android:id="@+id/El_NameCatTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/El_unitTV"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/el_foto"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        tools:ignore="ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/El_NameElTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/El_NameCatTV"
+        app:layout_constraintStart_toStartOf="@+id/El_NameCatTV"
+        app:layout_constraintTop_toBottomOf="@+id/El_NameCatTV" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="8dp"
+        android:text="Остаток:"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/El_RestTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="#8BC34A"
+        android:text="5000"
+        android:textColor="@color/black"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintVertical_bias="0.081" />
+
+    <TextView
+        android:id="@+id/El_unitTV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="шт."
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/El_RestTV"
+        app:layout_constraintEnd_toEndOf="@+id/textView6"
+        app:layout_constraintStart_toEndOf="@+id/El_RestTV" />
+
+    <Switch
+        android:id="@+id/El_switch"
+        android:layout_width="120dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="24dp"
+        android:checked="false"
+        android:text="Операция"
+        android:textOff="РАСХОД"
+        android:textOn="ПРИХОД"
+        app:layout_constraintStart_toStartOf="@+id/El_NameElTV"
+        app:layout_constraintTop_toBottomOf="@+id/El_NameElTV"
+        tools:checked="false" />
+
+    <EditText
+        android:id="@+id/El_NumberET"
+        android:layout_width="120dp"
+        android:layout_height="84dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Кол."
+        android:inputType="number"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="@+id/El_switch"
+        app:layout_constraintTop_toBottomOf="@+id/El_switch"
+        tools:ignore="TextContrastCheck" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/El_NumberET"
+        app:layout_constraintTop_toBottomOf="@+id/El_NameElTV">
+
+        <Button
+            android:id="@+id/El_50BT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetLeft="5dp"
+            android:insetRight="5dp"
+            android:text="1" />
+
+        <Button
+            android:id="@+id/El_100BT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetLeft="5dp"
+            android:insetRight="5dp"
+            android:text="2" />
+
+        <Button
+            android:id="@+id/El_200BT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetLeft="5dp"
+            android:insetRight="5dp"
+            android:text="3" />
+
+        <Button
+            android:id="@+id/El_500BT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetLeft="5dp"
+            android:insetRight="5dp"
+            android:text="5" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <Button
+            android:id="@+id/El_50BT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetLeft="5dp"
+            android:insetRight="5dp"
+            android:text="10" />
+
+        <Button
+            android:id="@+id/El_100BT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetLeft="5dp"
+            android:insetRight="5dp"
+            android:text="15" />
+
+        <Button
+            android:id="@+id/El_200BT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetLeft="5dp"
+            android:insetRight="5dp"
+            android:text="20" />
+
+        <Button
+            android:id="@+id/El_500BT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetLeft="5dp"
+            android:insetRight="5dp"
+            android:text="30" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <Button
+            android:id="@+id/El_50BT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetLeft="5dp"
+            android:insetRight="5dp"
+            android:text="50" />
+
+        <Button
+            android:id="@+id/El_100BT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetLeft="5dp"
+            android:insetRight="5dp"
+            android:text="100"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/El_200BT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetLeft="5dp"
+            android:insetRight="5dp"
+            android:text="200"
+            android:textSize="11sp" />
+
+        <Button
+            android:id="@+id/El_500BT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:insetLeft="5dp"
+            android:insetRight="5dp"
+            android:text="500"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
