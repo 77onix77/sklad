@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/name_element"
+        android:textColor="@color/black" />
+
+    <EditText
+        android:id="@+id/edTNameEl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:hint="@string/input_title"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
+        android:textSize="16sp"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:text="@string/stock_balance"
+        android:textColor="@color/black" />
+
+    <EditText
+        android:id="@+id/edTNumEl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:hint="@string/current_balance"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
+        android:textSize="16sp"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:text="@string/critical_residue"
+        android:textColor="@color/black" />
+
+    <EditText
+        android:id="@+id/edTCritNumEl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:hint="@string/krit_val"
+        android:inputType="number"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
+        android:textSize="16sp"
+        tools:ignore="SpeakableTextPresentCheck" />
+</LinearLayout>

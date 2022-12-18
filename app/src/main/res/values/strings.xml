@@ -4,4 +4,11 @@
     <string name="name_category">Название категории</string>
     <string name="no_tile">Не введено название категории</string>
     <string name="add_it">add</string>
+    <string name="name_element">Название елемента</string>
+    <string name="stock_balance">Остаток на складе</string>
+    <string name="critical_residue">Критический остаток</string>
+    <string name="input_title">Введите название</string>
+    <string name="current_balance">Укажите текущий остаток</string>
+    <string name="krit_val">Значение, при котором остаток будет выделяться красным</string>
+    <string name="toast_cat_message">Не заполнены все поля</string>
 </resources>

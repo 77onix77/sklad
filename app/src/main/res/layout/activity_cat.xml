@@ -30,7 +30,23 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/addButEl"
         app:layout_constraintEnd_toEndOf="@+id/nameCategory"
         app:layout_constraintStart_toStartOf="@+id/nameCategory"
         app:layout_constraintTop_toBottomOf="@+id/nameCategory" />
+
+    <ImageButton
+        android:id="@+id/addButEl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:contentDescription="@string/add_it"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/recVCat"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="@+id/recVCat"
+        app:srcCompat="@android:drawable/ic_input_add"
+        tools:ignore="ImageContrastCheck" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
