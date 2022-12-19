@@ -22,7 +22,7 @@ class CatActivity : AppCompatActivity() {
         binding.nameCategory.text = cat.name
         binding.recVCat.apply {
             layoutManager = LinearLayoutManager(this@CatActivity)
-            adapter = RecAdCat(cat.listEl, this@CatActivity)
+            adapter = RecAdCat(cat.listEl, cat.name, this@CatActivity)
         }
 
         binding.addButEl.setOnClickListener {

@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class RecAdCat(private val elements: List<Element>,  private val parent: Context) :
+class RecAdCat(private val elements: List<Element>, private val nameCat:String, private val parent: Context) :
     RecyclerView.Adapter<RecAdCat.ElViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ElViewHolder {
@@ -31,6 +31,7 @@ class RecAdCat(private val elements: List<Element>,  private val parent: Context
             Toast.makeText(parent, el.nameEl, Toast.LENGTH_LONG).show()
             val intent = Intent(parent, ElementActivity::class.java)
             intent.putExtra("el", el)
+            intent.putExtra("nameCat", nameCat)
             ContextCompat.startActivity(parent, intent, null)
 
         }
