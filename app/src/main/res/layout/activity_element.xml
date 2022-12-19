@@ -125,7 +125,7 @@
         app:layout_constraintTop_toBottomOf="@+id/El_NameElTV">
 
         <Button
-            android:id="@+id/El_50BT"
+            android:id="@+id/El_1BT"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -134,7 +134,7 @@
             android:text="1" />
 
         <Button
-            android:id="@+id/El_100BT"
+            android:id="@+id/El_2BT"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -143,7 +143,7 @@
             android:text="2" />
 
         <Button
-            android:id="@+id/El_200BT"
+            android:id="@+id/El_3BT"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -152,7 +152,7 @@
             android:text="3" />
 
         <Button
-            android:id="@+id/El_500BT"
+            android:id="@+id/El_5BT"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -172,7 +172,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <Button
-            android:id="@+id/El_50BT"
+            android:id="@+id/El_10BT"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -181,7 +181,7 @@
             android:text="10" />
 
         <Button
-            android:id="@+id/El_100BT"
+            android:id="@+id/El_15BT"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -190,7 +190,7 @@
             android:text="15" />
 
         <Button
-            android:id="@+id/El_200BT"
+            android:id="@+id/El_20BT"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -199,7 +199,7 @@
             android:text="20" />
 
         <Button
-            android:id="@+id/El_500BT"
+            android:id="@+id/El_30BT"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -209,6 +209,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -256,5 +257,30 @@
             android:text="500"
             android:textSize="11sp" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/El_Ok_Bt"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="48dp"
+        android:text="@android:string/ok"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:backgroundTint="#05FB0F"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/El_NumberET" />
+
+    <Button
+        android:id="@+id/El_Cancel_Bt"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="40dp"
+        android:text="@android:string/cancel"
+        app:layout_constraintBottom_toBottomOf="@+id/El_Ok_Bt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/El_Ok_Bt"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

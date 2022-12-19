@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 
 class RecAdCat(private val elements: List<Element>,  private val parent: Context) :
@@ -30,9 +29,9 @@ class RecAdCat(private val elements: List<Element>,  private val parent: Context
         if (el.number <= el.criticalRest) holder.number.setBackgroundResource(color)
         holder.itemView.setOnClickListener {
             Toast.makeText(parent, el.nameEl, Toast.LENGTH_LONG).show()
-            /*val intent = Intent(parent, CatActivity::class.java)
-            intent.putExtra("cat", cat)
-            ContextCompat.startActivity(parent, intent, null)*/
+            val intent = Intent(parent, ElementActivity::class.java)
+            intent.putExtra("el", el)
+            ContextCompat.startActivity(parent, intent, null)
 
         }
     }
