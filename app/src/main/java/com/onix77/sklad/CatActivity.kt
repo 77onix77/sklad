@@ -18,11 +18,24 @@ class CatActivity : AppCompatActivity() {
         binding = ActivityCatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val cat = intent.getSerializableExtra("cat") as Category
-        binding.nameCategory.text = cat.name
+        val list = mutableListOf<ElementDB>()
+
+        val db = MainDB.getDB(this)
+        val getBase = Thread{
+            list += db.getDao().getAll().toMutableList()
+        }
+        getBase.start()
+
+        val cat = intent.getStringExtra("cat")
+
+        val listEl = mutableListOf<Element>()
+        getBase.join()
+        list.forEach { if (it.nameCat == cat) listEl += Element(it.nameEl, it.number, it.criticalRest) }
+
+        binding.nameCategory.text = cat
         binding.recVCat.apply {
             layoutManager = LinearLayoutManager(this@CatActivity)
-            adapter = RecAdCat(cat.listEl, cat.name, this@CatActivity)
+            adapter = RecAdCat(listEl, cat!!, this@CatActivity)
         }
 
         binding.addButEl.setOnClickListener {
@@ -35,15 +48,16 @@ class CatActivity : AppCompatActivity() {
                     val num = alertText.findViewById<EditText>(R.id.edTNumEl).text.toString()
                     val critNum = alertText.findViewById<EditText>(R.id.edTCritNumEl).text.toString()
                     if (name.isNotEmpty() && num.isNotEmpty() && critNum.isNotEmpty()) {
-                        cat.listEl += Element(name, num.toInt(), critNum.toInt())
+                        listEl += Element(name, num.toInt(), critNum.toInt())
+                        Thread{
+                            db.getDao().insertEl(ElementDB(null, cat!!, name,num.toInt(), critNum.toInt()))
+                        }.start()
                     } else {
                         Toast.makeText(this, R.string.toast_cat_message, Toast.LENGTH_LONG).show()
                     }
                 }
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
-
         }
-
     }
 }

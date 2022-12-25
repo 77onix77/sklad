@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
 
-class RecyclerAdapter(private val category: List<Category>,  private val parent: Context):
+class RecyclerAdapter(private val category: List<String>,  private val parent: Context):
     RecyclerView.Adapter<RecyclerAdapter.CatViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {
@@ -19,18 +19,15 @@ class RecyclerAdapter(private val category: List<Category>,  private val parent:
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.element_category, parent, false)
         )
-
     }
 
     override fun onBindViewHolder(holder: CatViewHolder, position: Int) {
         val cat = category[position]
-        holder.name.text = cat.name
+        holder.name.text = cat
         holder.itemView.setOnClickListener {
-            Toast.makeText(parent, cat.name, Toast.LENGTH_LONG).show()
             val intent = Intent(parent, CatActivity::class.java)
             intent.putExtra("cat", cat)
             startActivity(parent, intent, null)
-
         }
     }
 
@@ -40,9 +37,6 @@ class RecyclerAdapter(private val category: List<Category>,  private val parent:
 
     class CatViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.nameCat)
-
     }
-
-
 
 }
