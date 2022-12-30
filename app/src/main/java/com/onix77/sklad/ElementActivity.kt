@@ -3,6 +3,8 @@ package com.onix77.sklad
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.onix77.sklad.databinding.ActivityElementBinding
 
 class ElementActivity : AppCompatActivity() {
@@ -13,14 +15,24 @@ class ElementActivity : AppCompatActivity() {
         binding = ActivityElementBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val el = intent.getSerializableExtra("el") as Element
+        val el = intent.getSerializableExtra("el") as ElementDB
 
         binding.apply {
             ElNameElTV.text = el.nameEl
-            ElNameCatTV.text = intent.getStringExtra("nameCat")
+            ElNameCatTV.text = el.nameCat
             ElRestTV.text = el.number.toString()
             if (el.number <= el.criticalRest) ElRestTV.setBackgroundResource(R.color.pink)
         }
+
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.item_spinner,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.ElSpinner.adapter = adapter
+        }
+        binding.ElSpinner.setSelection(0)
 
         binding.apply {
             El1BT.setOnClickListener { ElNumberET.setText("1")  }
@@ -35,6 +47,22 @@ class ElementActivity : AppCompatActivity() {
             El100BT.setOnClickListener { ElNumberET.setText("100")  }
             El200BT.setOnClickListener { ElNumberET.setText("200")  }
             El500BT.setOnClickListener { ElNumberET.setText("500")  }
+        }
+
+        binding.ElOkBt.setOnClickListener {
+            if (binding.ElNumberET.text.isNullOrEmpty()) {
+                Toast.makeText(this, R.string.toast_El_Act_message, Toast.LENGTH_LONG).show()
+                finish()
+            } else {
+                if (binding.ElSpinner.selectedItemPosition == 0) el.number -= binding.ElNumberET.text.toString()
+                    .toInt()
+                else el.number += binding.ElNumberET.text.toString().toInt()
+                val db = MainDB.getDB(this)
+                Thread {
+                    db.getDao().updateEl(el)
+                }.start()
+                finish()
+            }
         }
 
         binding.ElCancelBt.setOnClickListener {

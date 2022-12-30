@@ -16,4 +16,4 @@ data class ElementDB(
     var number: Int,
     @ColumnInfo(name = "critical_rest")
     var criticalRest: Int
-)
+) :java.io.Serializable

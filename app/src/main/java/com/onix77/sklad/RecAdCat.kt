@@ -6,11 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class RecAdCat(private val elements: List<Element>, private val nameCat:String, private val parent: Context) :
+class RecAdCat(private val elements: List<ElementDB>, private val parent: Context) :
     RecyclerView.Adapter<RecAdCat.ElViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ElViewHolder {
@@ -18,7 +17,6 @@ class RecAdCat(private val elements: List<Element>, private val nameCat:String, 
             LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_category, parent, false)
         )
-
     }
 
     override fun onBindViewHolder(holder: ElViewHolder, position: Int) {
@@ -28,12 +26,9 @@ class RecAdCat(private val elements: List<Element>, private val nameCat:String, 
         val color = R.color.pink
         if (el.number <= el.criticalRest) holder.number.setBackgroundResource(color)
         holder.itemView.setOnClickListener {
-            Toast.makeText(parent, el.nameEl, Toast.LENGTH_LONG).show()
             val intent = Intent(parent, ElementActivity::class.java)
             intent.putExtra("el", el)
-            intent.putExtra("nameCat", nameCat)
             ContextCompat.startActivity(parent, intent, null)
-
         }
     }
 

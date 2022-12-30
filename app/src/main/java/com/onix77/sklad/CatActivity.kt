@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
+//import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onix77.sklad.databinding.ActivityCatBinding
 
@@ -18,24 +19,25 @@ class CatActivity : AppCompatActivity() {
         binding = ActivityCatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val cat = intent.getStringExtra("cat")
+
         val list = mutableListOf<ElementDB>()
 
         val db = MainDB.getDB(this)
+
         val getBase = Thread{
-            list += db.getDao().getAll().toMutableList()
+            list += db.getDao().getEl(cat!!)
         }
         getBase.start()
 
-        val cat = intent.getStringExtra("cat")
-
-        val listEl = mutableListOf<Element>()
+        //val listEl = mutableListOf<Element>()
         getBase.join()
-        list.forEach { if (it.nameCat == cat) listEl += Element(it.nameEl, it.number, it.criticalRest) }
+        //list.forEach { if (it.nameCat == cat) listEl += Element(it.nameEl, it.number, it.criticalRest) }
 
         binding.nameCategory.text = cat
         binding.recVCat.apply {
             layoutManager = LinearLayoutManager(this@CatActivity)
-            adapter = RecAdCat(listEl, cat!!, this@CatActivity)
+            adapter = RecAdCat(list, this@CatActivity)
         }
 
         binding.addButEl.setOnClickListener {
@@ -48,7 +50,7 @@ class CatActivity : AppCompatActivity() {
                     val num = alertText.findViewById<EditText>(R.id.edTNumEl).text.toString()
                     val critNum = alertText.findViewById<EditText>(R.id.edTCritNumEl).text.toString()
                     if (name.isNotEmpty() && num.isNotEmpty() && critNum.isNotEmpty()) {
-                        listEl += Element(name, num.toInt(), critNum.toInt())
+                        list += ElementDB(null, cat!!, name,num.toInt(), critNum.toInt())
                         Thread{
                             db.getDao().insertEl(ElementDB(null, cat!!, name,num.toInt(), critNum.toInt()))
                         }.start()
