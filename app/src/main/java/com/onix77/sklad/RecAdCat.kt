@@ -36,6 +36,10 @@ class RecAdCat(private val elements: List<ElementDB>, private val parent: Contex
         return elements.size
     }
 
+    fun update() {
+        notifyDataSetChanged()
+    }
+
     class ElViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.nameElTV)
         val number: TextView = view.findViewById(R.id.numberElTV)

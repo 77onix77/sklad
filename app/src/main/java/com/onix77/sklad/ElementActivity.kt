@@ -6,6 +6,10 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.onix77.sklad.databinding.ActivityElementBinding
+import java.text.SimpleDateFormat
+
+import java.util.*
+import kotlinx.datetime.Clock
 
 class ElementActivity : AppCompatActivity() {
     private lateinit var binding: ActivityElementBinding
@@ -54,13 +58,30 @@ class ElementActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.toast_El_Act_message, Toast.LENGTH_LONG).show()
                 finish()
             } else {
-                if (binding.ElSpinner.selectedItemPosition == 0) el.number -= binding.ElNumberET.text.toString()
-                    .toInt()
-                else el.number += binding.ElNumberET.text.toString().toInt()
+                val parity: String
+                if (binding.ElSpinner.selectedItemPosition == 0) {
+                    el.number -= binding.ElNumberET.text.toString().toInt()
+                    parity = "-"
+                } else {
+                    el.number += binding.ElNumberET.text.toString().toInt()
+                    parity = "+"
+                }
                 val db = MainDB.getDB(this)
-                Thread {
+                val th = Thread {
+                    val date = MyDate()
                     db.getDao().updateEl(el)
-                }.start()
+                    db.getDao().insertInHistory(EntryHistory(
+                        null,
+                        date.getDate(),
+                        date.getTime(),
+                        el.nameCat,
+                        el.nameEl,
+                        "$parity${binding.ElNumberET.text}",
+                        el.number
+                    ))
+                }
+                th.start()
+                th.join()
                 finish()
             }
         }

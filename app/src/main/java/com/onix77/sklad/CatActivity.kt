@@ -6,38 +6,32 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
-//import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onix77.sklad.databinding.ActivityCatBinding
 
 class CatActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCatBinding
+    private var list = mutableListOf<ElementDB>()
+    private lateinit var cat: String
+    private lateinit var myAdapter: RecAdCat
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val cat = intent.getStringExtra("cat")
+        cat = intent.getStringExtra("cat")!!
 
-        val list = mutableListOf<ElementDB>()
+        list = geDbList(cat)
 
-        val db = MainDB.getDB(this)
-
-        val getBase = Thread{
-            list += db.getDao().getEl(cat!!)
-        }
-        getBase.start()
-
-        //val listEl = mutableListOf<Element>()
-        getBase.join()
-        //list.forEach { if (it.nameCat == cat) listEl += Element(it.nameEl, it.number, it.criticalRest) }
+        myAdapter = RecAdCat(list, this)
 
         binding.nameCategory.text = cat
         binding.recVCat.apply {
             layoutManager = LinearLayoutManager(this@CatActivity)
-            adapter = RecAdCat(list, this@CatActivity)
+            adapter = myAdapter
         }
 
         binding.addButEl.setOnClickListener {
@@ -50,10 +44,25 @@ class CatActivity : AppCompatActivity() {
                     val num = alertText.findViewById<EditText>(R.id.edTNumEl).text.toString()
                     val critNum = alertText.findViewById<EditText>(R.id.edTCritNumEl).text.toString()
                     if (name.isNotEmpty() && num.isNotEmpty() && critNum.isNotEmpty()) {
-                        list += ElementDB(null, cat!!, name,num.toInt(), critNum.toInt())
-                        Thread{
-                            db.getDao().insertEl(ElementDB(null, cat!!, name,num.toInt(), critNum.toInt()))
-                        }.start()
+                        list += ElementDB(null, cat, name, num.toInt(), critNum.toInt())
+                        val th = Thread{
+                            val date = MyDate()
+                            val db = MainDB.getDB(this)
+                            db.getDao().insertEl(ElementDB(null, cat, name, num.toInt(), critNum.toInt()))
+                            db.getDao().insertInHistory(EntryHistory(
+                                null,
+                                date.getDate(),
+                                date.getTime(),
+                                cat,
+                                name,
+                                "+$num",
+                                num.toInt()
+                            ))
+                        //list = db.getDao().getEl(cat).toMutableList()
+                        }
+                        th.start()
+                        //th.join()
+                        //myAdapter.update()
                     } else {
                         Toast.makeText(this, R.string.toast_cat_message, Toast.LENGTH_LONG).show()
                     }
@@ -62,4 +71,23 @@ class CatActivity : AppCompatActivity() {
                 .show()
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        list = geDbList(cat)
+        myAdapter = RecAdCat(list, this)
+    }
+
+    private fun geDbList(cat: String): MutableList<ElementDB> {
+        val db = MainDB.getDB(this)
+
+        val getBase = Thread{
+            list = db.getDao().getEl(cat).toMutableList()
+        }
+        getBase.start()
+        getBase.join()
+        return list
+    }
+
 }

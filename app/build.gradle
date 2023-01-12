@@ -16,6 +16,25 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
+    }
+
+    sourceSets {
+        getByName("androidTest") {
+            assets.srcDirs(files(projectDir, "schemas"))
+        }
+
     }
 
     buildTypes {
@@ -39,6 +58,7 @@ android {
 
 dependencies {
 
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.room:room-ktx:2.4.3'

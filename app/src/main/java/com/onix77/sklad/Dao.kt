@@ -1,10 +1,11 @@
 package com.onix77.sklad
 
 //import androidx.room.Delete
+import androidx.lifecycle.LiveData
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import kotlinx.coroutines.flow.Flow
+//import kotlinx.coroutines.flow.Flow
 
 
 @androidx.room.Dao
@@ -26,4 +27,7 @@ interface Dao {
 
     @Query("SELECT * FROM elements WHERE category = :cat")
     fun getEl(cat: String): List<ElementDB>
+
+    @Insert
+    fun insertInHistory(item: EntryHistory)  // добавляет запись в таблицу истории
 }
