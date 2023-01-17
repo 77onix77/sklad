@@ -36,4 +36,17 @@
         app:srcCompat="@android:drawable/ic_input_add"
         tools:ignore="ImageContrastCheck" />
 
+    <ImageButton
+        android:id="@+id/historyBt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:contentDescription="history"
+        app:layout_constraintBottom_toBottomOf="@+id/addBut"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addBut"
+        app:srcCompat="?android:attr/actionModeFindDrawable"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

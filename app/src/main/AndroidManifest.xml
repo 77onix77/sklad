@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Sklad"
         tools:targetApi="31">
         <activity
+            android:name=".HistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".ElementActivity"
             android:exported="false">
             <meta-data

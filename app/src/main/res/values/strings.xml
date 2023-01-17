@@ -14,6 +14,11 @@
     <string name="toast_main_message">Пустая категория не будет сохранена. Добавьте элемент!</string>
     <string name="toast_El_Act_message">Поле значения не заполненою. Элемент не был изменнён!</string>
     <string name="el_foto">foto</string>
+    <string name="History_operation">История операций</string>
+    <string name="from">C:</string>
+    <string name="to">По:</string>
+    <string name="category">Категория:</string>
+    <string name="element">Элемент</string>
     <string-array name="item_spinner">
         <item>Расход (-)</item>
         <item>Приход (+)</item>

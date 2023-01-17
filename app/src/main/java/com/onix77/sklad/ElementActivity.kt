@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.onix77.sklad.databinding.ActivityElementBinding
-import java.text.SimpleDateFormat
-
 import java.util.*
-import kotlinx.datetime.Clock
 
 class ElementActivity : AppCompatActivity() {
     private lateinit var binding: ActivityElementBinding

@@ -30,4 +30,7 @@ interface Dao {
 
     @Insert
     fun insertInHistory(item: EntryHistory)  // добавляет запись в таблицу истории
+
+    @Query("SELECT element FROM elements WHERE category = :cat")
+    fun getNameEl(cat: String): List<String>
 }

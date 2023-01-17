@@ -2,6 +2,7 @@ package com.onix77.sklad
 
 
 import android.app.AlertDialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -30,6 +31,11 @@ class MainActivity : AppCompatActivity() {
         binding.recV.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = RecyclerAdapter(listCat, this@MainActivity)
+        }
+
+        binding.historyBt.setOnClickListener {
+            val intent = Intent(this, HistoryActivity::class.java)
+            startActivity(intent)
         }
 
         binding.addBut.setOnClickListener {
