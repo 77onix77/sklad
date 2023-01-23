@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.onix77.sklad.databinding.ActivityHistoryBinding
 
 class HistoryActivity : AppCompatActivity() {
@@ -56,6 +58,71 @@ class HistoryActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
 
+        }
+
+        val listHis = mutableListOf<EntryHistory>()
+
+        binding.recVHis.apply {
+            layoutManager = LinearLayoutManager(this@HistoryActivity)
+            adapter = RecAdHis(listHis)
+        }
+
+        val date = MyDate()
+
+        binding.dateFromETHis.setText(date.getBeginMounth())
+        binding.dateToETHis.setText(date.getDate())
+
+        binding.okBtHis.setOnClickListener {
+            var dateOk = true
+            if (!Regex("20\\d\\d-[0,1]\\d-[0-3]\\d").matches(binding.dateFromETHis.text)) {
+                dateOk = false
+                binding.dateFromETHis.error = R.string.error_input.toString()
+                Toast.makeText(this, R.string.toast_His_Act, Toast.LENGTH_LONG).show()
+            }
+            if (!Regex("20\\d\\d-[0,1]\\d-[0-3]\\d").matches(binding.dateToETHis.text)) {
+                dateOk = false
+                binding.dateToETHis.error = R.string.error_input.toString()
+                Toast.makeText(this, R.string.toast_His_Act, Toast.LENGTH_LONG).show()
+            }
+            if (dateOk) {
+                if (binding.catSpHis.selectedItemPosition == 0) {
+                    listHis.clear()
+                    getDB = Thread {
+                        listHis += db.getDao().getAllDateHis(
+                            binding.dateFromETHis.text.toString(),
+                            binding.dateToETHis.text.toString()
+                        )
+                    }
+                    getDB.start()
+                    getDB.join()
+                    binding.recVHis.adapter!!.notifyDataSetChanged()
+                } else if (binding.ElSpHis.selectedItemPosition == 0) {
+                    listHis.clear()
+                    getDB = Thread {
+                        listHis += db.getDao().getCatDateHis(
+                            binding.dateFromETHis.text.toString(),
+                            binding.dateToETHis.text.toString(),
+                            binding.catSpHis.selectedItem.toString()
+                        )
+                    }
+                    getDB.start()
+                    getDB.join()
+                    binding.recVHis.adapter!!.notifyDataSetChanged()
+                } else {
+                    listHis.clear()
+                    getDB = Thread {
+                        listHis += db.getDao().getElDateHis(
+                            binding.dateFromETHis.text.toString(),
+                            binding.dateToETHis.text.toString(),
+                            binding.catSpHis.selectedItem.toString(),
+                            binding.ElSpHis.selectedItem.toString()
+                        )
+                    }
+                    getDB.start()
+                    getDB.join()
+                    binding.recVHis.adapter!!.notifyDataSetChanged()
+                }
+            }
         }
     }
 }

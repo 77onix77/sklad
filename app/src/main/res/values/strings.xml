@@ -13,12 +13,14 @@
     <string name="toast_cat_message">Не заполнены все поля</string>
     <string name="toast_main_message">Пустая категория не будет сохранена. Добавьте элемент!</string>
     <string name="toast_El_Act_message">Поле значения не заполненою. Элемент не был изменнён!</string>
+    <string name="toast_His_Act">Верно введите дату, например "2024–10–19"</string>
     <string name="el_foto">foto</string>
     <string name="History_operation">История операций</string>
     <string name="from">C:</string>
     <string name="to">По:</string>
     <string name="category">Категория:</string>
     <string name="element">Элемент</string>
+    <string name="error_input">Неверный формат ввода</string>
     <string-array name="item_spinner">
         <item>Расход (-)</item>
         <item>Приход (+)</item>

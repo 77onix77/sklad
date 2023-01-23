@@ -33,4 +33,16 @@ interface Dao {
 
     @Query("SELECT element FROM elements WHERE category = :cat")
     fun getNameEl(cat: String): List<String>
+
+    @Query("SELECT * FROM history")
+    fun getAllHis(): List<EntryHistory>
+
+    @Query("SELECT * FROM history WHERE date(date) BETWEEN date(:fromDate) AND date(:toDate)")
+    fun getAllDateHis(fromDate: String, toDate: String): List<EntryHistory>
+
+    @Query("SELECT * FROM history WHERE date(date) BETWEEN date(:fromDate) AND date(:toDate) AND category = :cat")
+    fun getCatDateHis(fromDate: String, toDate: String, cat: String): List<EntryHistory>
+
+    @Query("SELECT * FROM history WHERE date(date) BETWEEN date(:fromDate) AND date(:toDate) AND category = :cat AND element = :el")
+    fun getElDateHis(fromDate: String, toDate: String, cat: String, el: String): List<EntryHistory>
 }

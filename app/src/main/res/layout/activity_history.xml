@@ -37,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_weight="1"
+        android:autofillHints=""
         android:ems="10"
         android:hint="YYYY-MM-DD"
         android:inputType="date"
@@ -46,8 +47,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView7"
         app:layout_constraintStart_toEndOf="@+id/textView7"
         app:layout_constraintTop_toTopOf="@+id/textView7"
-        tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TextSizeCheck"
-        android:autofillHints="" />
+        tools:ignore="DuplicateSpeakableTextCheck,HardcodedText,TextSizeCheck" />
 
     <TextView
         android:id="@+id/textView7"
@@ -66,6 +66,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="YYYY-MM-DD"
         android:inputType="date"
@@ -75,8 +76,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/fromTVHis"
         app:layout_constraintStart_toEndOf="@+id/fromTVHis"
         app:layout_constraintTop_toTopOf="@+id/fromTVHis"
-        tools:ignore="HardcodedText,TextSizeCheck"
-        android:autofillHints="" />
+        tools:ignore="HardcodedText,TextSizeCheck" />
 
     <TextView
         android:id="@+id/textView9"
@@ -104,7 +104,6 @@
         android:layout_height="wrap_content"
         android:clickable="false"
         android:minHeight="48dp"
-        android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/textView10"
         tools:ignore="SpeakableTextPresentCheck" />
@@ -132,12 +131,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recVHis"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/catSpHis" />
+        app:layout_constraintTop_toBottomOf="@+id/catSpHis"
+        app:layout_constraintVertical_bias="0.03" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
