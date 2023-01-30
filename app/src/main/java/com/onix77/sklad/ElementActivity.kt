@@ -24,7 +24,6 @@ class ElementActivity : AppCompatActivity() {
             ElRestTV.text = el.number.toString()
             if (el.number <= el.criticalRest) ElRestTV.setBackgroundResource(R.color.pink)
         }
-
         ArrayAdapter.createFromResource(
             this,
             R.array.item_spinner,
@@ -82,14 +81,8 @@ class ElementActivity : AppCompatActivity() {
                 finish()
             }
         }
-
         binding.ElCancelBt.setOnClickListener {
             finish()
         }
-
-
-
-
-
     }
 }

@@ -1,12 +1,15 @@
 package com.onix77.sklad
 
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onix77.sklad.databinding.ActivityHistoryBinding
 
@@ -14,6 +17,7 @@ class HistoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHistoryBinding
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHistoryBinding.inflate(layoutInflater)
@@ -65,6 +69,11 @@ class HistoryActivity : AppCompatActivity() {
         binding.recVHis.apply {
             layoutManager = LinearLayoutManager(this@HistoryActivity)
             adapter = RecAdHis(listHis)
+            addItemDecoration(DividerItemDecoration(
+                this@HistoryActivity, DividerItemDecoration.VERTICAL).apply {
+                    setDrawable(getDrawable(R.drawable.divider)!!)
+                }
+            )
         }
 
         val date = MyDate()

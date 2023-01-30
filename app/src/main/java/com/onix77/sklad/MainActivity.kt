@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
                     val text = alertText.findViewById<EditText>(R.id.edTNameCat).text.toString()
                     if (text.isNotEmpty()) {
                         listCat += text
+                        binding.recV.adapter!!.notifyItemInserted(listCat.lastIndex)
                         Toast.makeText(this, R.string.toast_main_message, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(this, R.string.no_tile, Toast.LENGTH_LONG).show()

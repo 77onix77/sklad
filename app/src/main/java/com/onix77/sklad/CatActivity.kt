@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onix77.sklad.databinding.ActivityCatBinding
 
@@ -24,14 +25,17 @@ class CatActivity : AppCompatActivity() {
 
         cat = intent.getStringExtra("cat")!!
 
-        list = geDbList(cat)
-
-        myAdapter = RecAdCat(list, this)
-
         binding.nameCategory.text = cat
         binding.recVCat.apply {
             layoutManager = LinearLayoutManager(this@CatActivity)
-            adapter = myAdapter
+            adapter = RecAdCat(list, this@CatActivity)
+        }
+
+        val db = MainDB.getDB(this)
+        db.getDao().getEl(cat).asLiveData().observe(this) {
+            list.clear()
+            list += it
+            binding.recVCat.adapter!!.notifyDataSetChanged()
         }
 
         binding.addButEl.setOnClickListener {
@@ -44,11 +48,16 @@ class CatActivity : AppCompatActivity() {
                     val num = alertText.findViewById<EditText>(R.id.edTNumEl).text.toString()
                     val critNum = alertText.findViewById<EditText>(R.id.edTCritNumEl).text.toString()
                     if (name.isNotEmpty() && num.isNotEmpty() && critNum.isNotEmpty()) {
-                        list += ElementDB(null, cat, name, num.toInt(), critNum.toInt())
+
                         val th = Thread{
                             val date = MyDate()
-                            val db = MainDB.getDB(this)
-                            db.getDao().insertEl(ElementDB(null, cat, name, num.toInt(), critNum.toInt()))
+
+                            db.getDao().insertEl(ElementDB(
+                                null,
+                                cat, name,
+                                num.toInt(),
+                                critNum.toInt()
+                            ))
                             db.getDao().insertInHistory(EntryHistory(
                                 null,
                                 date.getDate(),
@@ -58,11 +67,11 @@ class CatActivity : AppCompatActivity() {
                                 "+$num",
                                 num.toInt()
                             ))
-                        //list = db.getDao().getEl(cat).toMutableList()
                         }
                         th.start()
-                        //th.join()
-                        //myAdapter.update()
+                        list += ElementDB(null, cat, name, num.toInt(), critNum.toInt())
+                        binding.recVCat.adapter!!.notifyItemInserted(list.lastIndex)
+
                     } else {
                         Toast.makeText(this, R.string.toast_cat_message, Toast.LENGTH_LONG).show()
                     }
@@ -70,24 +79,6 @@ class CatActivity : AppCompatActivity() {
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        list = geDbList(cat)
-        myAdapter = RecAdCat(list, this)
-    }
-
-    private fun geDbList(cat: String): MutableList<ElementDB> {
-        val db = MainDB.getDB(this)
-
-        val getBase = Thread{
-            list = db.getDao().getEl(cat).toMutableList()
-        }
-        getBase.start()
-        getBase.join()
-        return list
     }
 
 }

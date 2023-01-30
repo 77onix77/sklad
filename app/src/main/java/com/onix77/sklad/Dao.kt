@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-//import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.Flow
 
 
 @androidx.room.Dao
@@ -26,7 +26,7 @@ interface Dao {
     fun getAll(): List<ElementDB>
 
     @Query("SELECT * FROM elements WHERE category = :cat")
-    fun getEl(cat: String): List<ElementDB>
+    fun getEl(cat: String): Flow<List<ElementDB>>
 
     @Insert
     fun insertInHistory(item: EntryHistory)  // добавляет запись в таблицу истории
