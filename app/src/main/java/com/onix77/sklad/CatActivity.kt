@@ -6,24 +6,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
-import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onix77.sklad.databinding.ActivityCatBinding
+import androidx.activity.viewModels
 
 class CatActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCatBinding
-    private var list = mutableListOf<ElementDB>()
-    private lateinit var cat: String
-    private lateinit var myAdapter: RecAdCat
 
+    private val  myViewModel: MyViewModel by viewModels {
+        MyViewModelFactory((application as MyApplication).repository)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCatBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        cat = intent.getStringExtra("cat")!!
+        val cat = intent.getStringExtra("cat")!!
+        val list = mutableListOf<ElementDB>()
 
         binding.nameCategory.text = cat
         binding.recVCat.apply {
@@ -31,8 +32,7 @@ class CatActivity : AppCompatActivity() {
             adapter = RecAdCat(list, this@CatActivity)
         }
 
-        val db = MainDB.getDB(this)
-        db.getDao().getEl(cat).asLiveData().observe(this) {
+        myViewModel.getEl(cat).observe(this) {
             list.clear()
             list += it
             binding.recVCat.adapter!!.notifyDataSetChanged()
@@ -49,28 +49,23 @@ class CatActivity : AppCompatActivity() {
                     val critNum = alertText.findViewById<EditText>(R.id.edTCritNumEl).text.toString()
                     if (name.isNotEmpty() && num.isNotEmpty() && critNum.isNotEmpty()) {
 
-                        val th = Thread{
-                            val date = MyDate()
+                        myViewModel.insertEl(ElementDB(
+                            null,
+                            cat, name,
+                            num.toInt(),
+                            critNum.toInt()
+                        ))
 
-                            db.getDao().insertEl(ElementDB(
-                                null,
-                                cat, name,
-                                num.toInt(),
-                                critNum.toInt()
-                            ))
-                            db.getDao().insertInHistory(EntryHistory(
-                                null,
-                                date.getDate(),
-                                date.getTime(),
-                                cat,
-                                name,
-                                "+$num",
-                                num.toInt()
-                            ))
-                        }
-                        th.start()
-                        list += ElementDB(null, cat, name, num.toInt(), critNum.toInt())
-                        binding.recVCat.adapter!!.notifyItemInserted(list.lastIndex)
+                        val date = MyDate()
+                        myViewModel.insertInHistory(EntryHistory(
+                            null,
+                            date.getDate(),
+                            date.getTime(),
+                            cat,
+                            name,
+                            "+$num",
+                            num.toInt()
+                        ))
 
                     } else {
                         Toast.makeText(this, R.string.toast_cat_message, Toast.LENGTH_LONG).show()
@@ -80,5 +75,4 @@ class CatActivity : AppCompatActivity() {
                 .show()
         }
     }
-
 }

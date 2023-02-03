@@ -8,14 +8,20 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onix77.sklad.databinding.ActivityHistoryBinding
+import kotlinx.coroutines.launch
 
 class HistoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHistoryBinding
+    private val  myViewModel: MyViewModel by viewModels {
+        MyViewModelFactory((application as MyApplication).repository)
+    }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,15 +31,20 @@ class HistoryActivity : AppCompatActivity() {
 
         val listCat = mutableListOf("ВСЕ")
         val listEl = mutableListOf("ВСЕ")
-        val db = MainDB.getDB(this)
-        var getDB = Thread { listCat += db.getDao().getCat().toMutableList() }
-        getDB.start()
-        getDB.join()
+        //val db = MainDB.getDB(this)
+
+        lifecycle.coroutineScope.launch {
+            myViewModel.getCat().collect() {
+                listCat += it
+            }
+        }
+
 
         ArrayAdapter(this, android.R.layout.simple_spinner_item, listCat).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.catSpHis.adapter = adapter
         }
+
         binding.catSpHis.setSelection(0)
 
         ArrayAdapter(this, android.R.layout.simple_spinner_item, listEl).also { adapter ->
@@ -52,9 +63,11 @@ class HistoryActivity : AppCompatActivity() {
                 binding.ElSpHis.setSelection(0)
 
                 if (p2 != 0) {
-                    getDB = Thread { listEl += db.getDao().getNameEl(listCat[p2]) }
-                    getDB.start()
-                    getDB.join()
+                    lifecycle.coroutineScope.launch {
+                        myViewModel.getNameEl(listCat[p2]).collect() {
+                            listEl += it
+                        }
+                    }
                 }
             }
 
@@ -96,40 +109,42 @@ class HistoryActivity : AppCompatActivity() {
             if (dateOk) {
                 if (binding.catSpHis.selectedItemPosition == 0) {
                     listHis.clear()
-                    getDB = Thread {
-                        listHis += db.getDao().getAllDateHis(
+                    lifecycle.coroutineScope.launch {
+                        myViewModel.getAllDateHis(
                             binding.dateFromETHis.text.toString(),
                             binding.dateToETHis.text.toString()
-                        )
+                        ).collect() {
+                            listHis += it
+                            binding.recVHis.adapter!!.notifyDataSetChanged()
+                        }
                     }
-                    getDB.start()
-                    getDB.join()
-                    binding.recVHis.adapter!!.notifyDataSetChanged()
+
                 } else if (binding.ElSpHis.selectedItemPosition == 0) {
                     listHis.clear()
-                    getDB = Thread {
-                        listHis += db.getDao().getCatDateHis(
+                    lifecycle.coroutineScope.launch {
+                        myViewModel.getCatDateHis(
                             binding.dateFromETHis.text.toString(),
                             binding.dateToETHis.text.toString(),
                             binding.catSpHis.selectedItem.toString()
-                        )
+                        ).collect() {
+                            listHis += it
+                            binding.recVHis.adapter!!.notifyDataSetChanged()
+                        }
                     }
-                    getDB.start()
-                    getDB.join()
-                    binding.recVHis.adapter!!.notifyDataSetChanged()
+
                 } else {
                     listHis.clear()
-                    getDB = Thread {
-                        listHis += db.getDao().getElDateHis(
+                    lifecycle.coroutineScope.launch {
+                        myViewModel.getElDateHis(
                             binding.dateFromETHis.text.toString(),
                             binding.dateToETHis.text.toString(),
                             binding.catSpHis.selectedItem.toString(),
                             binding.ElSpHis.selectedItem.toString()
-                        )
+                        ).collect() {
+                            listHis += it
+                            binding.recVHis.adapter!!.notifyDataSetChanged()
+                        }
                     }
-                    getDB.start()
-                    getDB.join()
-                    binding.recVHis.adapter!!.notifyDataSetChanged()
                 }
             }
         }

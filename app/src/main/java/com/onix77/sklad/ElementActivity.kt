@@ -5,11 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.viewModels
 import com.onix77.sklad.databinding.ActivityElementBinding
 import java.util.*
 
 class ElementActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityElementBinding
+    private val  myViewModel: MyViewModel by viewModels {
+        MyViewModelFactory((application as MyApplication).repository)
+    }
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,11 +68,11 @@ class ElementActivity : AppCompatActivity() {
                     el.number += binding.ElNumberET.text.toString().toInt()
                     parity = "+"
                 }
-                val db = MainDB.getDB(this)
-                val th = Thread {
-                    val date = MyDate()
-                    db.getDao().updateEl(el)
-                    db.getDao().insertInHistory(EntryHistory(
+
+                val date = MyDate()
+                myViewModel.apply {
+                    updateEl(el)
+                    insertInHistory(EntryHistory(
                         null,
                         date.getDate(),
                         date.getTime(),
@@ -76,8 +82,6 @@ class ElementActivity : AppCompatActivity() {
                         el.number
                     ))
                 }
-                th.start()
-                th.join()
                 finish()
             }
         }
