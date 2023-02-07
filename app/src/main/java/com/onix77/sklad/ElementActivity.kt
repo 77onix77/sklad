@@ -1,17 +1,27 @@
 package com.onix77.sklad
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.graphics.Bitmap
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.viewModels
+
 import com.onix77.sklad.databinding.ActivityElementBinding
 import java.util.*
 
 class ElementActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityElementBinding
+    private val REQUEST_CODE_GAL = 111
+    private val REQUEST_CODE_CAM = 222
+    lateinit var imView: ImageView
     private val  myViewModel: MyViewModel by viewModels {
         MyViewModelFactory((application as MyApplication).repository)
     }
@@ -21,6 +31,7 @@ class ElementActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityElementBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         val el = intent.getSerializableExtra("el") as ElementDB
 
@@ -53,6 +64,18 @@ class ElementActivity : AppCompatActivity() {
             El100BT.setOnClickListener { ElNumberET.setText("100")  }
             El200BT.setOnClickListener { ElNumberET.setText("200")  }
             El500BT.setOnClickListener { ElNumberET.setText("500")  }
+        }
+
+        imView = binding.ElImageView
+
+        binding.ImButton.setOnClickListener {
+            val imageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(imageIntent, REQUEST_CODE_GAL)
+        }
+
+        binding.camButton.setOnClickListener {
+            val camIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            startActivityForResult(camIntent, REQUEST_CODE_CAM)
         }
 
         binding.ElOkBt.setOnClickListener {
@@ -89,4 +112,16 @@ class ElementActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_GAL) {
+            imView.setImageURI(data?.data)
+        } else if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_CAM) {
+            val thumbnailBitmap = data?.extras?.get("data") as Bitmap
+            imView.setImageBitmap(thumbnailBitmap)
+        }
+
+    }
+
 }

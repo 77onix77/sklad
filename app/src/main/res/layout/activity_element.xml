@@ -23,10 +23,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/El_imageView"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginTop="8dp"
+        android:clickable="true"
         android:contentDescription="@string/el_foto"
         app:layout_constraintStart_toStartOf="@+id/El_NameElTV"
         app:layout_constraintTop_toBottomOf="@+id/El_NameElTV"
@@ -58,8 +59,8 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintStart_toEndOf="@+id/El_imageView"
+        app:layout_constraintTop_toTopOf="@+id/El_imageView" />
 
     <TextView
         android:id="@+id/El_RestTV"
@@ -71,7 +72,7 @@
         android:textColor="@color/black"
         android:textSize="40dp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/El_imageView"
         app:layout_constraintStart_toStartOf="@+id/textView6"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
         app:layout_constraintVertical_bias="0.081" />
@@ -112,8 +113,8 @@
         android:textSize="40sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/El_imageView"
+        app:layout_constraintTop_toBottomOf="@+id/El_imageView"
         tools:ignore="TextContrastCheck" />
 
     <LinearLayout
@@ -295,5 +296,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/El_Ok_Bt"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/ImButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="gallery"
+        app:layout_constraintStart_toEndOf="@+id/El_imageView"
+        app:layout_constraintTop_toBottomOf="@+id/El_RestTV" />
+
+    <Button
+        android:id="@+id/camButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="camera"
+        app:layout_constraintEnd_toEndOf="@+id/ImButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/ImButton"
+        app:layout_constraintTop_toBottomOf="@+id/ImButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
