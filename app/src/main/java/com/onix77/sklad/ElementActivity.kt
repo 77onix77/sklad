@@ -1,29 +1,51 @@
 package com.onix77.sklad
 
+import android.Manifest.permission.CAMERA
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
-import android.content.Intent
-import android.graphics.Bitmap
-
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
 import androidx.activity.viewModels
-
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.onix77.sklad.databinding.ActivityElementBinding
 import java.util.*
 
 class ElementActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityElementBinding
-    private val REQUEST_CODE_GAL = 111
-    private val REQUEST_CODE_CAM = 222
-    lateinit var imView: ImageView
+    private lateinit var imView: ImageView
     private val  myViewModel: MyViewModel by viewModels {
         MyViewModelFactory((application as MyApplication).repository)
+    }
+
+    private val permissionCam = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if (granted) cameraOn.launch()
+        else if (!ActivityCompat.shouldShowRequestPermissionRationale(this, CAMERA)) {
+            Toast.makeText(this, R.string.toast_El_Act_permission, Toast.LENGTH_LONG).show()
+        } else Toast.makeText(this, R.string.toast_El_Act_no_permission, Toast.LENGTH_LONG).show()
+    }
+
+    private val cameraOn = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+        imView.setImageBitmap(bitmap)
+    }
+
+    private val permissionGal = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if (granted) imageOn.launch(PickVisualMediaRequest())
+        else if (!ActivityCompat.shouldShowRequestPermissionRationale(this, READ_EXTERNAL_STORAGE)) {
+            Toast.makeText(this, R.string.toast_El_Act_permission, Toast.LENGTH_LONG).show()
+        } else Toast.makeText(this, R.string.toast_El_Act_no_permission, Toast.LENGTH_LONG).show()
+    }
+
+    private val imageOn = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        imView.setImageURI(uri)
     }
 
     @SuppressLint("SetTextI18n")
@@ -69,13 +91,15 @@ class ElementActivity : AppCompatActivity() {
         imView = binding.ElImageView
 
         binding.ImButton.setOnClickListener {
-            val imageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            startActivityForResult(imageIntent, REQUEST_CODE_GAL)
+            if (ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                imageOn.launch(PickVisualMediaRequest())
+            } else permissionGal.launch(READ_EXTERNAL_STORAGE)
         }
 
         binding.camButton.setOnClickListener {
-            val camIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            startActivityForResult(camIntent, REQUEST_CODE_CAM)
+            if (ContextCompat.checkSelfPermission(this, CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                cameraOn.launch()
+            } else permissionCam.launch(CAMERA)
         }
 
         binding.ElOkBt.setOnClickListener {
@@ -112,16 +136,4 @@ class ElementActivity : AppCompatActivity() {
             finish()
         }
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_GAL) {
-            imView.setImageURI(data?.data)
-        } else if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_CAM) {
-            val thumbnailBitmap = data?.extras?.get("data") as Bitmap
-            imView.setImageBitmap(thumbnailBitmap)
-        }
-
-    }
-
 }
