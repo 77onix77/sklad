@@ -16,7 +16,9 @@ data class ElementDB(
     @ColumnInfo(name = "rest")
     var number: Int,
     @ColumnInfo(name = "critical_rest")
-    var criticalRest: Int
+    var criticalRest: Int,
+    @ColumnInfo(name = "path_image")
+    var path_image: String? = null
 ) :java.io.Serializable
 
 @Entity(tableName = "history")

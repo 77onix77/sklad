@@ -23,8 +23,10 @@ class RecAdCat(private val elements: List<ElementDB>, private val parent: Contex
         val el = elements[position]
         holder.name.text = el.nameEl
         holder.number.text = el.number.toString()
-        val color = R.color.pink
-        if (el.number <= el.criticalRest) holder.number.setBackgroundResource(color)
+        val pink = R.color.pink
+        val green = R.color.green
+        if (el.number <= el.criticalRest) holder.number.setBackgroundResource(pink)
+        else holder.number.setBackgroundResource(green)
         holder.itemView.setOnClickListener {
             val intent = Intent(parent, ElementActivity::class.java)
             intent.putExtra("el", el)

@@ -29,6 +29,8 @@
         android:layout_marginTop="8dp"
         android:clickable="true"
         android:contentDescription="@string/el_foto"
+        android:focusableInTouchMode="false"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="@+id/El_NameElTV"
         app:layout_constraintTop_toBottomOf="@+id/El_NameElTV"
         app:srcCompat="@android:drawable/ic_menu_camera"
@@ -296,25 +298,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/El_Ok_Bt"
         app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/ImButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="gallery"
-        app:layout_constraintStart_toEndOf="@+id/El_imageView"
-        app:layout_constraintTop_toBottomOf="@+id/El_RestTV" />
-
-    <Button
-        android:id="@+id/camButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="camera"
-        app:layout_constraintEnd_toEndOf="@+id/ImButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/ImButton"
-        app:layout_constraintTop_toBottomOf="@+id/ImButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

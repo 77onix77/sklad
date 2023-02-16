@@ -3,7 +3,10 @@ package com.onix77.sklad
 import android.Manifest.permission.CAMERA
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -15,8 +18,12 @@ import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import com.onix77.sklad.databinding.ActivityElementBinding
+import java.io.File
+import java.io.FileOutputStream
 import java.util.*
+
 
 class ElementActivity : AppCompatActivity() {
 
@@ -26,6 +33,7 @@ class ElementActivity : AppCompatActivity() {
         MyViewModelFactory((application as MyApplication).repository)
     }
 
+    // Разрешение на использование камеры
     private val permissionCam = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         if (granted) cameraOn.launch()
         else if (!ActivityCompat.shouldShowRequestPermissionRationale(this, CAMERA)) {
@@ -33,10 +41,16 @@ class ElementActivity : AppCompatActivity() {
         } else Toast.makeText(this, R.string.toast_El_Act_no_permission, Toast.LENGTH_LONG).show()
     }
 
+    // пллучение фото с камеры для элемента
     private val cameraOn = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
-        imView.setImageBitmap(bitmap)
+        if (bitmap != null) {
+            imView.setImageBitmap(bitmap)
+            saveImage()
+        }
+
     }
 
+    //разрешение на использование пользовательских файлов
     private val permissionGal = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
         if (granted) imageOn.launch(PickVisualMediaRequest())
         else if (!ActivityCompat.shouldShowRequestPermissionRationale(this, READ_EXTERNAL_STORAGE)) {
@@ -44,9 +58,17 @@ class ElementActivity : AppCompatActivity() {
         } else Toast.makeText(this, R.string.toast_El_Act_no_permission, Toast.LENGTH_LONG).show()
     }
 
+    //получение картинки с устройства для элемента
     private val imageOn = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
         imView.setImageURI(uri)
+        saveImage()
     }
+
+    val date = MyDate()
+
+    private lateinit var el: ElementDB
+
+    private var elChange = false // был ли элемент изменен
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,14 +77,22 @@ class ElementActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        val el = intent.getSerializableExtra("el") as ElementDB
+
+        imView = binding.ElImageView
+
+        el = intent.getSerializableExtra("el") as ElementDB
 
         binding.apply {
             ElNameElTV.text = el.nameEl
             ElNameCatTV.text = el.nameCat
             ElRestTV.text = el.number.toString()
             if (el.number <= el.criticalRest) ElRestTV.setBackgroundResource(R.color.pink)
+            if (!el.path_image.isNullOrEmpty() && File(this@ElementActivity.filesDir, "IMAGES_ELEMENTS/${el.path_image!!}").exists()) {
+                imView.setImageURI(Uri.parse("file:///${this@ElementActivity.filesDir}/IMAGES_ELEMENTS/${el.path_image}"))
+            }
         }
+
+        // выбор операции расход/приход
         ArrayAdapter.createFromResource(
             this,
             R.array.item_spinner,
@@ -73,6 +103,7 @@ class ElementActivity : AppCompatActivity() {
         }
         binding.ElSpinner.setSelection(0)
 
+        //кнопки быстрого выбора количества
         binding.apply {
             El1BT.setOnClickListener { ElNumberET.setText("1")  }
             El2BT.setOnClickListener { ElNumberET.setText("2")  }
@@ -88,25 +119,33 @@ class ElementActivity : AppCompatActivity() {
             El500BT.setOnClickListener { ElNumberET.setText("500")  }
         }
 
-        imView = binding.ElImageView
-
-        binding.ImButton.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this, READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                imageOn.launch(PickVisualMediaRequest())
-            } else permissionGal.launch(READ_EXTERNAL_STORAGE)
+        // установка изображения элемента(алертдиалог с выбором камеры или галереи)
+        imView.setOnClickListener {
+            val item = arrayOf("из Галереи", "с Камеры")
+            val alBil = AlertDialog.Builder(this)
+            alBil.apply {
+                setTitle("Изменить изображение")
+                setItems(item) {_, i ->
+                    if (i == 1) {
+                        if (ContextCompat.checkSelfPermission(this@ElementActivity, CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                            cameraOn.launch()
+                        } else permissionCam.launch(CAMERA)
+                    }
+                    if (i == 0) {
+                        if (ContextCompat.checkSelfPermission(this@ElementActivity, READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                            imageOn.launch(PickVisualMediaRequest())
+                        } else permissionGal.launch(READ_EXTERNAL_STORAGE)
+                    }
+                }
+                setNegativeButton(android.R.string.cancel, null)
+                show()
+            }
         }
 
-        binding.camButton.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this, CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                cameraOn.launch()
-            } else permissionCam.launch(CAMERA)
-        }
-
+        //сохранение изменения остатка и запись в историю
         binding.ElOkBt.setOnClickListener {
-            if (binding.ElNumberET.text.isNullOrEmpty()) {
-                Toast.makeText(this, R.string.toast_El_Act_message, Toast.LENGTH_LONG).show()
-                finish()
-            } else {
+            if (!binding.ElNumberET.text.isNullOrEmpty()) {
+
                 val parity: String
                 if (binding.ElSpinner.selectedItemPosition == 0) {
                     el.number -= binding.ElNumberET.text.toString().toInt()
@@ -116,7 +155,7 @@ class ElementActivity : AppCompatActivity() {
                     parity = "+"
                 }
 
-                val date = MyDate()
+
                 myViewModel.apply {
                     updateEl(el)
                     insertInHistory(EntryHistory(
@@ -130,10 +169,38 @@ class ElementActivity : AppCompatActivity() {
                     ))
                 }
                 finish()
+
+            } else if (elChange) {
+                myViewModel.updateEl(el)
+                finish()
+
+            } else {
+                Toast.makeText(this, R.string.toast_El_Act_message, Toast.LENGTH_LONG).show()
+                finish()
             }
         }
         binding.ElCancelBt.setOnClickListener {
             finish()
+        }
+    }
+
+    // сохранение изображения элемента
+    private fun saveImage() {
+        val bitmap = imView.drawable.toBitmap()
+        val name = (date.getDate() + date.getTime() + ".jpg").replace("-", "").replace(":", "")
+        val dir = File(this.filesDir, "IMAGES_ELEMENTS")
+        if (!dir.exists()) dir.mkdir()
+
+        try {
+            val file = File(dir, name)
+            val fileStr = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG,75, fileStr)
+            fileStr.close()
+            if (!el.path_image.isNullOrEmpty() && File(dir, el.path_image!!).exists()) File(dir, el.path_image!!).delete()
+            el.path_image = name
+            elChange = true
+        } catch (e: Exception) {
+            Toast.makeText(this, R.string.toast_El_Act_save_exception, Toast.LENGTH_LONG).show()
         }
     }
 }

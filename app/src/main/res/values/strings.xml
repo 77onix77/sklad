@@ -15,6 +15,7 @@
     <string name="toast_El_Act_message">Поле значения не заполненою. Элемент не был изменнён!</string>
     <string name="toast_El_Act_permission">Разрешения были отключены, добавьте их в настройках!</string>
     <string name="toast_El_Act_no_permission">Разрешения были отключены!</string>
+    <string name="toast_El_Act_save_exception">Не удалось сохранить изображение!</string>
     <string name="toast_His_Act">Верно введите дату, например "2024–10–19"</string>
     <string name="el_foto">foto</string>
     <string name="History_operation">История операций</string>
