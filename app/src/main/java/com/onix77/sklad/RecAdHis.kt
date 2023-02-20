@@ -24,8 +24,12 @@ class RecAdHis(private val listHis: List<EntryHistory>):
         holder.cat.text = item.nameCat
         holder.name.text = item.nameEl
         holder.change.text = item.changeRest
+        if (item.rest < 0) holder.rest.setTextColor(Color.RED)
+        else holder.rest.setTextColor(Color.BLACK)
         holder.rest.text = item.rest.toString()
-        if (item.changeRest[0] == '-') holder.change.setTextColor(Color.RED) else holder.change.setTextColor(Color.GREEN)
+        if (item.changeRest[0] == '-') holder.change.setTextColor(Color.RED)
+        else if (item.changeRest[0] == '+') holder.change.setTextColor(Color.GREEN)
+        else holder.change.setTextColor(Color.BLACK)
     }
 
     override fun getItemCount(): Int {

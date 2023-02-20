@@ -2,6 +2,7 @@ package com.onix77.sklad
 
 //import androidx.room.Delete
 import androidx.lifecycle.LiveData
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -13,8 +14,8 @@ interface Dao {
     @Insert
     suspend fun insertEl(item: ElementDB)
 
-    //@Delete
-    //fun delete(elementDB: ElementDB)
+    @Delete
+    suspend fun delete(elementDB: ElementDB)
 
     @Update
     suspend fun updateEl(elementDB: ElementDB)

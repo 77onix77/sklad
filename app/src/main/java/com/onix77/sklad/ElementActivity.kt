@@ -9,7 +9,9 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
@@ -179,10 +181,100 @@ class ElementActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+        //удаление элемента
+        binding.elDelBt.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle(R.string.el_aldig_del_title)
+                .setMessage(R.string.el_aldig_del_text)
+                .setPositiveButton(android.R.string.ok) {_, _, ->
+                    val dir = File(this.filesDir, "IMAGES_ELEMENTS")
+                    if (!el.path_image.isNullOrEmpty() && File(dir, el.path_image!!).exists()) File(dir, el.path_image!!).delete()
+                    myViewModel.insertInHistory(EntryHistory(
+                        null,
+                        date.getDate(),
+                        date.getTime(),
+                        el.nameCat,
+                        el.nameEl,
+                        "удален",
+                        el.number
+                    ))
+                    myViewModel.delete(el)
+                    finish()
+                }
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
+        }
+
+        //Редактирование элемента
+        binding.elEditBt.setOnClickListener {
+            val alertText = LayoutInflater.from(this).inflate(R.layout.alert_dialog_cat, null, false)
+            val name = alertText.findViewById<EditText>(R.id.edTNameEl)
+            val num = alertText.findViewById<EditText>(R.id.edTNumEl)
+            val critNum = alertText.findViewById<EditText>(R.id.edTCritNumEl)
+            name.setText(el.nameEl)
+            num.setText(el.number.toString())
+            critNum.setText(el.criticalRest.toString())
+            AlertDialog.Builder(this)
+                .setTitle("Изменение элемента")
+                .setView(alertText)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+
+                    if (name.text.isNotEmpty() && num.text.isNotEmpty() && critNum.text.isNotEmpty() &&
+                        (name.text.toString() != el.nameEl || num.text.toString() != el.number.toString() ||
+                                critNum.text.toString() != el.criticalRest.toString())
+                    ) {
+
+                        myViewModel.updateEl(ElementDB(
+                            el.id,
+                            el.nameCat,
+                            name.text.toString(),
+                            num.text.toString().toInt(),
+                            critNum.text.toString().toInt()
+                        ))
+
+                        binding.apply {
+                            ElNameElTV.text = name.text.toString()
+                            ElRestTV.text = num.text.toString()
+                        }
+
+                        val date = MyDate()
+
+                        myViewModel.insertInHistory(EntryHistory(
+                            null,
+                            date.getDate(),
+                            date.getTime(),
+                            el.nameCat,
+                            el.nameEl,
+                            "до изменения",
+                            el.number
+                        ))
+
+                        myViewModel.insertInHistory(EntryHistory(
+                            null,
+                            date.getDate(),
+                            date.getTime(),
+                            el.nameCat,
+                            name.text.toString(),
+                            "после изменения",
+                            num.text.toString().toInt()
+                        ))
+                        finish()
+
+                    } else {
+                        Toast.makeText(this, R.string.toast_edit_element_message, Toast.LENGTH_LONG).show()
+                    }
+                }
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
+        }
+
         binding.ElCancelBt.setOnClickListener {
             finish()
         }
     }
+
+
 
     // сохранение изображения элемента
     private fun saveImage() {

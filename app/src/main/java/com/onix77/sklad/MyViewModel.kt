@@ -24,6 +24,12 @@ class MyViewModel(private val repository: Repository) :ViewModel() {
         }
     }
 
+    fun delete(elementDB: ElementDB) {
+        viewModelScope.launch {
+            repository.delete(elementDB)
+        }
+    }
+
     fun insertEl(item: ElementDB) {
         viewModelScope.launch {
             repository.insertEl(item)

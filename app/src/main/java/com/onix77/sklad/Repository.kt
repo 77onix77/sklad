@@ -11,6 +11,10 @@ class Repository(private val dao: Dao) {
         dao.updateEl(el)
     }
 
+    suspend fun delete(elementDB: ElementDB) {
+        dao.delete(elementDB)
+    }
+
     suspend fun insertEl(item: ElementDB) {
         dao.insertEl(item)
     }

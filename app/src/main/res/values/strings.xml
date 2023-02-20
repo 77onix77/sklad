@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">sklad</string>
     <string name="add">add</string>
+    <string name="del">удален</string>
     <string name="name_category">Название категории</string>
     <string name="no_tile">Не введено название категории</string>
     <string name="add_it">add</string>
@@ -11,6 +12,7 @@
     <string name="current_balance">Укажите текущий остаток</string>
     <string name="krit_val">Значение, при котором остаток будет выделяться красным</string>
     <string name="toast_cat_message">Не заполнены все поля</string>
+    <string name="toast_edit_element_message">Ни одно из полей не изменено или какие-то поле пустое</string>
     <string name="toast_main_message">Пустая категория не будет сохранена. Добавьте элемент!</string>
     <string name="toast_El_Act_message">Поле значения не заполненою. Элемент не был изменнён!</string>
     <string name="toast_El_Act_permission">Разрешения были отключены, добавьте их в настройках!</string>
@@ -23,6 +25,8 @@
     <string name="to">По:</string>
     <string name="category">Категория:</string>
     <string name="element">Элемент</string>
+    <string name="el_aldig_del_title">Удалить элемент?</string>
+    <string name="el_aldig_del_text">"Элемент будет удален безвозвратно, вы действительно хотите удалить этот элемент?"</string>
     <string name="error_input">Неверный формат ввода</string>
     <string-array name="item_spinner">
         <item>Расход (-)</item>

@@ -31,7 +31,7 @@ class HistoryActivity : AppCompatActivity() {
 
         val listCat = mutableListOf("ВСЕ")
         val listEl = mutableListOf("ВСЕ")
-        //val db = MainDB.getDB(this)
+
 
         lifecycle.coroutineScope.launch {
             myViewModel.getCat().collect() {
