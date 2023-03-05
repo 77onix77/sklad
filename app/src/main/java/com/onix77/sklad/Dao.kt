@@ -1,7 +1,7 @@
 package com.onix77.sklad
 
 //import androidx.room.Delete
-import androidx.lifecycle.LiveData
+
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
@@ -23,6 +23,9 @@ interface Dao {
     @Query("SELECT DISTINCT category FROM elements")
     fun getCat(): Flow<List<String>>
 
+    @Query("SELECT DISTINCT category FROM elements")
+    suspend fun getCatL(): List<String>
+
     //@Query("SELECT * FROM elements")
     //fun getAll(): List<ElementDB>
 
@@ -34,6 +37,9 @@ interface Dao {
 
     @Query("SELECT element FROM elements WHERE category = :cat")
     fun getNameEl(cat: String): Flow<List<String>>
+
+    @Query("SELECT element FROM elements WHERE category = :cat")
+    suspend fun getNameElL(cat: String): List<String>
 
     //@Query("SELECT * FROM history")
     //fun getAllHis(): Flow<List<EntryHistory>>

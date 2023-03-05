@@ -1,6 +1,5 @@
 package com.onix77.sklad
 
-
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,9 +12,13 @@ import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onix77.sklad.databinding.ActivityHistoryBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class HistoryActivity : AppCompatActivity() {
+
+
+class StatisticActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHistoryBinding
     private val  myViewModel: MyViewModel by viewModels {
@@ -29,6 +32,8 @@ class HistoryActivity : AppCompatActivity() {
 
         val listCat = mutableListOf("ВСЕ")
         val listEl = mutableListOf("ВСЕ")
+
+        binding.titleTVStat.text = "Статистика за период"
 
 
         lifecycle.coroutineScope.launch {
@@ -72,19 +77,19 @@ class HistoryActivity : AppCompatActivity() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-
         }
 
-        val listHis = mutableListOf<EntryHistory>()
+        val listStat = mutableListOf<ItemStatistic>()
+
 
         binding.recVHis.apply {
-            layoutManager = LinearLayoutManager(this@HistoryActivity)
-            adapter = RecAdHis(listHis)
+            layoutManager = LinearLayoutManager(this@StatisticActivity)
+            adapter = RecAdStat(listStat)
             addItemDecoration(DividerItemDecoration(
-                this@HistoryActivity, DividerItemDecoration.VERTICAL).apply {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        setDrawable(getDrawable(R.drawable.divider)!!)
-                    }
+                this@StatisticActivity, DividerItemDecoration.VERTICAL).apply {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    setDrawable(getDrawable(R.drawable.divider)!!)
+                }
             }
             )
         }
@@ -95,6 +100,7 @@ class HistoryActivity : AppCompatActivity() {
         binding.dateToETHis.setText(date.getDate())
 
         binding.okBtHis.setOnClickListener {
+            val listHis = mutableListOf<EntryHistory>()
             var dateOk = true
             if (!Regex("20\\d\\d-[0,1]\\d-[0-3]\\d").matches(binding.dateFromETHis.text)) {
                 dateOk = false
@@ -115,6 +121,8 @@ class HistoryActivity : AppCompatActivity() {
                             binding.dateToETHis.text.toString()
                         ).collect() {
                             listHis += it
+                            listStat.clear()
+                            listStat += statCalcAll(listHis)
                             binding.recVHis.adapter!!.notifyDataSetChanged()
                         }
                     }
@@ -128,6 +136,8 @@ class HistoryActivity : AppCompatActivity() {
                             binding.catSpHis.selectedItem.toString()
                         ).collect() {
                             listHis += it
+                            listStat.clear()
+                            listStat += statCalcCat(listHis, binding.catSpHis.selectedItem.toString())
                             binding.recVHis.adapter!!.notifyDataSetChanged()
                         }
                     }
@@ -142,11 +152,49 @@ class HistoryActivity : AppCompatActivity() {
                             binding.ElSpHis.selectedItem.toString()
                         ).collect() {
                             listHis += it
+                            listStat.clear()
+                            listStat += statCalcEl(listHis,
+                                binding.catSpHis.selectedItem.toString(),
+                                binding.ElSpHis.selectedItem.toString()
+                            )
                             binding.recVHis.adapter!!.notifyDataSetChanged()
                         }
                     }
                 }
             }
         }
+    }
+
+    private suspend fun statCalcAll(hisList: MutableList<EntryHistory>): List<ItemStatistic> {
+        val listStat = mutableListOf<ItemStatistic>()
+        val db = MainDB.getDB(this)
+
+        val listCat = db.getDao().getCatL()
+        for (cat in listCat) listStat += statCalcCat(hisList, cat)
+
+        return listStat
+    }
+
+    private suspend fun statCalcCat(hisList: MutableList<EntryHistory>, cat: String): List<ItemStatistic> {
+        val listStat = mutableListOf<ItemStatistic>()
+        val db = MainDB.getDB(this)
+
+        val listEl = db.getDao().getNameElL(cat)
+        for (el in listEl) listStat += statCalcEl(hisList, cat, el)
+
+        return listStat
+    }
+
+    private fun statCalcEl(hisList: MutableList<EntryHistory>, cat: String, el: String): ItemStatistic {
+        var plus = 0
+        var minus = 0
+        for (elHis in hisList) {
+            if (elHis.nameCat == cat && elHis.nameEl == el) {
+                if (elHis.changeRest[0] == '+') plus += elHis.changeRest.toInt()
+                if (elHis.changeRest[0] == '-') minus += elHis.changeRest.toInt()
+                //hisList.remove(elHis)
+            }
+        }
+        return ItemStatistic(cat, el, plus, minus)
     }
 }

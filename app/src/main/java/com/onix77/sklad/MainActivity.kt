@@ -49,6 +49,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.statBut.setOnClickListener {
+            val intent = Intent(this, StatisticActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.addBut.setOnClickListener {
             val alertText = LayoutInflater.from(this).inflate(R.layout.alert_dialog_main, null, false)
             AlertDialog.Builder(this)

@@ -48,5 +48,16 @@
         app:srcCompat="?android:attr/actionModeFindDrawable"
         tools:ignore="SpeakableTextPresentCheck" />
 
+    <ImageButton
+        android:id="@+id/statBut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/addBut"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/addBut"
+        app:srcCompat="@android:drawable/ic_menu_month"
+        tools:ignore="SpeakableTextPresentCheck" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

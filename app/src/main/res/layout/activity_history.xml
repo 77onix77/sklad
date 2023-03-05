@@ -7,7 +7,7 @@
     tools:context=".HistoryActivity">
 
     <TextView
-        android:id="@+id/titleTVHis"
+        android:id="@+id/titleTVStat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -29,7 +29,7 @@
         android:gravity="center"
         android:text="@string/from"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleTVHis" />
+        app:layout_constraintTop_toBottomOf="@+id/titleTVStat" />
 
     <EditText
         android:id="@+id/dateToETHis"
