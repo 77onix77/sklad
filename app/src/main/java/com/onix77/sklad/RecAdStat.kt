@@ -21,7 +21,8 @@ class RecAdStat(private val ListStat: List<ItemStatistic>):
             val item = ListStat[position]
             holder.cat.text = item.cat
             holder.name.text = item.el
-            holder.plus.text = item.sumPlus.toString()
+            val plus = "+${item.sumPlus}"
+            holder.plus.text = plus
             holder.minus.text = item.sumMinus.toString()
         }
 

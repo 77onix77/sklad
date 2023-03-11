@@ -143,4 +143,17 @@
         app:layout_constraintTop_toBottomOf="@+id/catSpHis"
         app:layout_constraintVertical_bias="0.03" />
 
+    <ImageButton
+        android:id="@+id/sharBtHis"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#BCB1B1"
+        android:tint="@color/black"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_share" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

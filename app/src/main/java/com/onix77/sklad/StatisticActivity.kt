@@ -1,5 +1,6 @@
 package com.onix77.sklad
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.net.toUri
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +17,7 @@ import com.onix77.sklad.databinding.ActivityHistoryBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-
+import java.io.File
 
 
 class StatisticActivity : AppCompatActivity() {
@@ -123,6 +125,8 @@ class StatisticActivity : AppCompatActivity() {
                             listHis += it
                             listStat.clear()
                             listStat += statCalcAll(listHis)
+                            if (listStat.isNotEmpty()) binding.sharBtHis.visibility = View.VISIBLE
+                            else binding.sharBtHis.visibility = View.GONE
                             binding.recVHis.adapter!!.notifyDataSetChanged()
                         }
                     }
@@ -138,6 +142,8 @@ class StatisticActivity : AppCompatActivity() {
                             listHis += it
                             listStat.clear()
                             listStat += statCalcCat(listHis, binding.catSpHis.selectedItem.toString())
+                            if (listStat.isNotEmpty()) binding.sharBtHis.visibility = View.VISIBLE
+                            else binding.sharBtHis.visibility = View.GONE
                             binding.recVHis.adapter!!.notifyDataSetChanged()
                         }
                     }
@@ -157,12 +163,26 @@ class StatisticActivity : AppCompatActivity() {
                                 binding.catSpHis.selectedItem.toString(),
                                 binding.ElSpHis.selectedItem.toString()
                             )
+                            if (listStat.isNotEmpty()) binding.sharBtHis.visibility = View.VISIBLE
+                            else binding.sharBtHis.visibility = View.GONE
                             binding.recVHis.adapter!!.notifyDataSetChanged()
                         }
                     }
                 }
             }
         }
+
+        binding.sharBtHis.setOnClickListener {
+            lifecycle.coroutineScope.launch {
+                val file = createFileShare(listStat, binding.dateFromETHis.text.toString(), binding.dateToETHis.text.toString())
+                val uri = file.toUri()
+                val intent = Intent(Intent.ACTION_SEND, uri)
+                intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                startActivity(intent)
+            }
+
+        }
+
     }
 
     private suspend fun statCalcAll(hisList: MutableList<EntryHistory>): List<ItemStatistic> {
@@ -197,4 +217,40 @@ class StatisticActivity : AppCompatActivity() {
         }
         return ItemStatistic(cat, el, plus, minus)
     }
+
+    private fun createFileShare(list: List<ItemStatistic>, dateFrom: String, dateTo: String): File {
+        val dir = File(this.filesDir, "SHARE_FILE")
+        if (!dir.exists()) dir.mkdir()
+        val file = File(dir, "statistic.txt")
+        file.writeText("\t\t**************Статистика с $dateFrom по $dateTo**************\n")
+        file.appendText("""
+            --------------------------------------------------------------------------------
+            | Название                                     | Приход (+)    | Расход (-)    |
+            ================================================================================
+        """.trimIndent())
+        val groupMap = list.groupBy { it.cat }
+        for ((k, v) in groupMap) {
+            var str = "|     $k"
+            str += " ".repeat(73 - k.length)
+            str += "|\n"
+            file.appendText(str)
+            file.appendText("--------------------------------------------------------------------------------\n")
+            for (el in v) {
+                str = "| ${el.el}"
+                str += " ".repeat(46 - el.el.length)
+                str += "|"
+                str += " ".repeat(13 - el.sumPlus.toString().length)
+                str += "+${el.sumPlus.toString().length}"
+                str += " |"
+                str += " ".repeat(14 - el.sumMinus.toString().length)
+                str += "+${el.sumMinus.toString().length}"
+                str += " |\n"
+                file.appendText(str)
+                file.appendText("--------------------------------------------------------------------------------\n")
+            }
+        }
+        return file
+    }
+
+
 }
