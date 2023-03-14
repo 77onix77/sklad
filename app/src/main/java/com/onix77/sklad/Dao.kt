@@ -26,8 +26,8 @@ interface Dao {
     @Query("SELECT DISTINCT category FROM elements")
     suspend fun getCatL(): List<String>
 
-    //@Query("SELECT * FROM elements")
-    //fun getAll(): List<ElementDB>
+    @Query("SELECT * FROM elements")
+    suspend fun getAll(): List<ElementDB>
 
     @Query("SELECT * FROM elements WHERE category = :cat")
     fun getEl(cat: String): Flow<List<ElementDB>>

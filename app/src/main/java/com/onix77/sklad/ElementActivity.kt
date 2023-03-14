@@ -279,7 +279,7 @@ class ElementActivity : AppCompatActivity() {
     // сохранение изображения элемента
     private fun saveImage() {
         val bitmap = imView.drawable.toBitmap()
-        val name = (date.getDate() + date.getTime() + ".jpg").replace("-", "").replace(":", "")
+        val name = (date.getDateTimeForName() + ".jpg")
         val dir = File(this.filesDir, "IMAGES_ELEMENTS")
         if (!dir.exists()) dir.mkdir()
 

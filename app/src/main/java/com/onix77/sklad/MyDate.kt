@@ -17,4 +17,9 @@ class MyDate {
         return date.substring(0, 8) + "01"
     }
 
+    fun getDateTimeForName() = "${getDate()}${getTime()}".replace("-", "").replace(":", "")
+
+
+
+
 }

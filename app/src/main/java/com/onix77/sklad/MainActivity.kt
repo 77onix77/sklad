@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.FileProvider
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.LinearLayoutManager
 
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         lifecycle.coroutineScope.launch {
-            myViewModel.getCat().collect() {
+            myViewModel.getCat().collect {
                 listCat.clear()
                 listCat += it
                 binding.recV.adapter!!.notifyDataSetChanged()
@@ -72,5 +73,22 @@ class MainActivity : AppCompatActivity() {
                 .setNegativeButton(android.R.string.cancel, null)
                 .show()
         }
+
+        binding.sharBtMain.setOnClickListener {
+            lifecycle.coroutineScope.launch {
+                val listAllEl = MainDB.getDB(this@MainActivity).getDao().getAll()
+                val fileShare = FileShare(listAllEl, this@MainActivity.filesDir)
+                val date= MyDate()
+                val file = fileShare.createFileRest("${date.getDate()} ${date.getTime()}")
+                val uri = FileProvider.getUriForFile(this@MainActivity, "com.onix77.sklad.fileprovider", file)
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "text/plain"
+                intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                intent.putExtra(Intent.EXTRA_STREAM, uri)
+                startActivity(intent)
+            }
+
+        }
+
     }
 }

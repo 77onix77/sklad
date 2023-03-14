@@ -59,5 +59,18 @@
         app:srcCompat="@android:drawable/ic_menu_month"
         tools:ignore="SpeakableTextPresentCheck" />
 
+    <ImageButton
+        android:id="@+id/sharBtMain"
+        android:layout_width="60dp"
+        android:layout_height="0dp"
+        android:background="#BCB1B1"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/historyBt"
+        app:layout_constraintEnd_toStartOf="@+id/addBut"
+        app:layout_constraintStart_toEndOf="@+id/historyBt"
+        app:layout_constraintTop_toTopOf="@+id/historyBt"
+        app:srcCompat="@android:drawable/ic_menu_share"
+        app:tint="@color/black" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

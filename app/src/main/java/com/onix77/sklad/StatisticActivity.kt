@@ -9,15 +9,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.net.toUri
+import androidx.core.content.FileProvider
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onix77.sklad.databinding.ActivityHistoryBinding
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.io.File
+
 
 
 class StatisticActivity : AppCompatActivity() {
@@ -174,15 +172,17 @@ class StatisticActivity : AppCompatActivity() {
 
         binding.sharBtHis.setOnClickListener {
             lifecycle.coroutineScope.launch {
-                val file = createFileShare(listStat, binding.dateFromETHis.text.toString(), binding.dateToETHis.text.toString())
-                val uri = file.toUri()
-                val intent = Intent(Intent.ACTION_SEND, uri)
+                val fileShare = FileShare(listStat, this@StatisticActivity.filesDir)
+                val file = fileShare.createFileStat(binding.dateFromETHis.text.toString(), binding.dateToETHis.text.toString())
+                val uri = FileProvider.getUriForFile(this@StatisticActivity, "com.onix77.sklad.fileprovider", file)
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "text/plain"
                 intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                intent.putExtra(Intent.EXTRA_STREAM, uri)
                 startActivity(intent)
             }
 
         }
-
     }
 
     private suspend fun statCalcAll(hisList: MutableList<EntryHistory>): List<ItemStatistic> {
@@ -212,22 +212,22 @@ class StatisticActivity : AppCompatActivity() {
             if (elHis.nameCat == cat && elHis.nameEl == el) {
                 if (elHis.changeRest[0] == '+') plus += elHis.changeRest.toInt()
                 if (elHis.changeRest[0] == '-') minus += elHis.changeRest.toInt()
-                //hisList.remove(elHis)
             }
         }
         return ItemStatistic(cat, el, plus, minus)
     }
 
-    private fun createFileShare(list: List<ItemStatistic>, dateFrom: String, dateTo: String): File {
+    /*private fun createFileShare(list: List<ItemStatistic>, dateFrom: String, dateTo: String): File {
         val dir = File(this.filesDir, "SHARE_FILE")
         if (!dir.exists()) dir.mkdir()
         val file = File(dir, "statistic.txt")
-        file.writeText("\t\t**************Статистика с $dateFrom по $dateTo**************\n")
+        file.writeText("\t**************Статистика с $dateFrom по $dateTo**************\n")
         file.appendText("""
             --------------------------------------------------------------------------------
             | Название                                     | Приход (+)    | Расход (-)    |
             ================================================================================
         """.trimIndent())
+        file.appendText("\n")
         val groupMap = list.groupBy { it.cat }
         for ((k, v) in groupMap) {
             var str = "|     $k"
@@ -237,20 +237,20 @@ class StatisticActivity : AppCompatActivity() {
             file.appendText("--------------------------------------------------------------------------------\n")
             for (el in v) {
                 str = "| ${el.el}"
-                str += " ".repeat(46 - el.el.length)
+                str += " ".repeat(45 - el.el.length)
                 str += "|"
                 str += " ".repeat(13 - el.sumPlus.toString().length)
-                str += "+${el.sumPlus.toString().length}"
+                str += "+${el.sumPlus}"
                 str += " |"
                 str += " ".repeat(14 - el.sumMinus.toString().length)
-                str += "+${el.sumMinus.toString().length}"
+                str += "${el.sumMinus}"
                 str += " |\n"
                 file.appendText(str)
                 file.appendText("--------------------------------------------------------------------------------\n")
             }
         }
         return file
-    }
+    }*/
 
 
 }
