@@ -30,7 +30,6 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/addButEl"
         app:layout_constraintEnd_toEndOf="@+id/nameCategory"
         app:layout_constraintStart_toStartOf="@+id/nameCategory"
@@ -40,13 +39,27 @@
         android:id="@+id/addButEl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="-10dp"
+        android:background="#00FFFFFF"
         android:contentDescription="@string/add_it"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:minWidth="48dp"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView12"
         app:layout_constraintEnd_toEndOf="@+id/recVCat"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/recVCat"
         app:srcCompat="@android:drawable/ic_input_add"
         tools:ignore="ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="Добавить"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/addButEl"
+        app:layout_constraintStart_toStartOf="@+id/addButEl" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

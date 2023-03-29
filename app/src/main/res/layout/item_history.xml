@@ -4,31 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#E7EFF6">
+    android:background="#E1E1E1">
 
     <TextView
         android:id="@+id/date"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="2dp"
+        android:gravity="center"
         android:text="YYYY-MM-DD"
         android:textColor="@color/black"
         android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@id/cat"
+        app:layout_constraintHorizontal_weight="3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/time"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
         android:text="HH:mm:SS"
         android:textColor="#616161"
         android:textSize="11sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/date"
         app:layout_constraintStart_toStartOf="@+id/date"
         app:layout_constraintTop_toBottomOf="@+id/date"
@@ -36,60 +38,69 @@
 
     <TextView
         android:id="@+id/cat"
-        android:layout_width="150dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="2dp"
         android:gravity="start"
         android:text="Категория"
         android:textColor="#616161"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/date"
+        app:layout_constraintEnd_toStartOf="@id/change"
+        app:layout_constraintHorizontal_weight="6"
         app:layout_constraintStart_toEndOf="@+id/date"
         app:layout_constraintTop_toTopOf="@+id/date"
         tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/name"
-        android:layout_width="132dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="2dp"
         android:gravity="center|start"
         android:text="Имя"
         android:textColor="@color/black"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/time"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/cat"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/cat"
-        app:layout_constraintTop_toTopOf="@+id/time"
+        app:layout_constraintTop_toBottomOf="@+id/cat"
+        app:layout_constraintVertical_bias="1.0"
         tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/change"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="4dp"
         android:background="@color/white"
         android:gravity="center"
         android:text="+1000"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/name"
+        app:layout_constraintEnd_toStartOf="@id/rest"
+        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@+id/cat"
         app:layout_constraintTop_toTopOf="@+id/cat"
         tools:ignore="HardcodedText,TextSizeCheck" />
 
     <TextView
         android:id="@+id/rest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:gravity="center"
         android:text="5000"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/change"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@+id/change"
         app:layout_constraintTop_toTopOf="@+id/change"
         tools:ignore="HardcodedText" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

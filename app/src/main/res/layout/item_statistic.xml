@@ -6,65 +6,73 @@
     android:layout_height="wrap_content"
     android:background="#E7EFF6">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/ItStCat"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="2dp"
+        android:gravity="start"
+        android:text="Категория"
+        android:textColor="#616161"
+        android:textSize="12sp"
+        app:layout_constraintHorizontal_weight="4"
+        app:layout_constraintEnd_toStartOf="@id/ItStPlus"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
 
-        <LinearLayout
-            android:id="@+id/frameLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/ItStCat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="Категория"
-                android:textColor="#616161"
-                android:textSize="12sp"
-                tools:ignore="HardcodedText" />
+    <TextView
+        android:id="@+id/ItStName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:gravity="center|start"
+        android:text="Имя"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/ItStCat"
+        app:layout_constraintStart_toStartOf="@+id/ItStCat"
+        app:layout_constraintTop_toBottomOf="@+id/ItStCat"
+        tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/ItStName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center|start"
-                android:text="Имя"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                tools:ignore="HardcodedText" />
-        </LinearLayout>
+    <TextView
+        android:id="@+id/ItStPlus"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="+1000"
+        android:textColor="#1C7522"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBottom_toBottomOf="@id/ItStName"
+        app:layout_constraintEnd_toStartOf="@id/ItStMinus"
+        app:layout_constraintStart_toEndOf="@id/ItStCat"
+        app:layout_constraintTop_toTopOf="@+id/ItStCat"
+        tools:ignore="HardcodedText,TextSizeCheck" />
 
-        <TextView
-            android:id="@+id/ItStPlus"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:layout_weight="0.2"
-            android:background="@color/white"
-            android:gravity="center"
-            android:text="+1000"
-            android:textColor="#1C7522"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText,TextSizeCheck" />
+    <TextView
+        android:id="@+id/ItStMinus"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:gravity="center"
+        android:text="-5000"
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintBottom_toBottomOf="@id/ItStPlus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ItStPlus"
+        app:layout_constraintTop_toTopOf="@+id/ItStPlus"
+        tools:ignore="HardcodedText" />
 
-        <TextView
-            android:id="@+id/ItStMinus"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_weight="0.2"
-            android:gravity="center"
-            android:text="-5000"
-            android:textColor="@color/red"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText" />
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,67 +10,110 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recV"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/addBut"
+        android:background="#00FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/historyBt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.024">
+        app:layout_constraintTop_toTopOf="parent">
 
     </androidx.recyclerview.widget.RecyclerView>
-
-    <ImageButton
-        android:id="@+id/addBut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="@string/add_it"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/recV"
-        app:layout_constraintStart_toStartOf="@+id/recV"
-        app:srcCompat="@android:drawable/ic_input_add"
-        tools:ignore="ImageContrastCheck" />
 
     <ImageButton
         android:id="@+id/historyBt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:contentDescription="history"
-        app:layout_constraintBottom_toBottomOf="@+id/addBut"
+        android:background="#00FFFFFF"
+        android:tint="#0A0A0A"
+        app:layout_constraintBottom_toTopOf="@+id/textView4"
+        app:layout_constraintEnd_toStartOf="@id/statBut"
+        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/addBut"
         app:srcCompat="?android:attr/actionModeFindDrawable"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
     <ImageButton
         android:id="@+id/statBut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/addBut"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/addBut"
+        android:background="#00FFFFFF"
+        android:contentDescription="statistic"
+        android:tint="#0A0A0A"
+        app:layout_constraintEnd_toStartOf="@+id/addBut"
+        app:layout_constraintStart_toEndOf="@+id/historyBt"
+        app:layout_constraintTop_toTopOf="@+id/historyBt"
         app:srcCompat="@android:drawable/ic_menu_month"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
+
+    <ImageButton
+        android:id="@+id/addBut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:contentDescription="@string/add_it"
+        app:layout_constraintEnd_toStartOf="@+id/sharBtMain"
+        app:layout_constraintStart_toEndOf="@id/statBut"
+        app:layout_constraintTop_toTopOf="@+id/historyBt"
+        app:srcCompat="@android:drawable/ic_input_add"
+        tools:ignore="ImageContrastCheck" />
 
     <ImageButton
         android:id="@+id/sharBtMain"
         android:layout_width="60dp"
-        android:layout_height="0dp"
-        android:background="#BCB1B1"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@+id/historyBt"
-        app:layout_constraintEnd_toStartOf="@+id/addBut"
-        app:layout_constraintStart_toEndOf="@+id/historyBt"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:tint="#0A0A0A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/addBut"
         app:layout_constraintTop_toTopOf="@+id/historyBt"
         app:srcCompat="@android:drawable/ic_menu_share"
-        app:tint="@color/black" />
+        tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="История"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/historyBt"
+        app:layout_constraintStart_toStartOf="@+id/historyBt" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Статистика"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/statBut"
+        app:layout_constraintStart_toStartOf="@+id/statBut"
+        app:layout_constraintTop_toBottomOf="@+id/statBut" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:text="Добавить"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/addBut"
+        app:layout_constraintStart_toStartOf="@+id/addBut"
+        app:layout_constraintTop_toBottomOf="@+id/addBut" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Отправить"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/sharBtMain"
+        app:layout_constraintStart_toStartOf="@+id/sharBtMain"
+        app:layout_constraintTop_toBottomOf="@+id/sharBtMain" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

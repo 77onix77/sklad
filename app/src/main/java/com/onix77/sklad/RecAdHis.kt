@@ -28,7 +28,7 @@ class RecAdHis(private val listHis: List<EntryHistory>):
         else holder.rest.setTextColor(Color.BLACK)
         holder.rest.text = item.rest.toString()
         if (item.changeRest[0] == '-') holder.change.setTextColor(Color.RED)
-        else if (item.changeRest[0] == '+') holder.change.setTextColor(Color.GREEN)
+        else if (item.changeRest[0] == '+') holder.change.setTextColor(Color.parseColor("#FF4CAF50"))
         else holder.change.setTextColor(Color.BLACK)
     }
 
