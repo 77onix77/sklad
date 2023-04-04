@@ -1,6 +1,7 @@
 package com.onix77.sklad
 
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,6 +23,7 @@ class HistoryActivity : AppCompatActivity() {
         MyViewModelFactory((application as MyApplication).repository)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHistoryBinding.inflate(layoutInflater)
@@ -32,7 +34,7 @@ class HistoryActivity : AppCompatActivity() {
 
 
         lifecycle.coroutineScope.launch {
-            myViewModel.getCat().collect() {
+            myViewModel.getCat().collect {
                 listCat += it
             }
         }
@@ -62,7 +64,7 @@ class HistoryActivity : AppCompatActivity() {
 
                 if (p2 != 0) {
                     lifecycle.coroutineScope.launch {
-                        myViewModel.getNameEl(listCat[p2]).collect() {
+                        myViewModel.getNameEl(listCat[p2]).collect {
                             listEl += it
                         }
                     }
@@ -113,7 +115,7 @@ class HistoryActivity : AppCompatActivity() {
                         myViewModel.getAllDateHis(
                             binding.dateFromETHis.text.toString(),
                             binding.dateToETHis.text.toString()
-                        ).collect() {
+                        ).collect {
                             listHis += it
                             binding.recVHis.adapter!!.notifyDataSetChanged()
                         }
@@ -126,7 +128,7 @@ class HistoryActivity : AppCompatActivity() {
                             binding.dateFromETHis.text.toString(),
                             binding.dateToETHis.text.toString(),
                             binding.catSpHis.selectedItem.toString()
-                        ).collect() {
+                        ).collect {
                             listHis += it
                             binding.recVHis.adapter!!.notifyDataSetChanged()
                         }
@@ -140,7 +142,7 @@ class HistoryActivity : AppCompatActivity() {
                             binding.dateToETHis.text.toString(),
                             binding.catSpHis.selectedItem.toString(),
                             binding.ElSpHis.selectedItem.toString()
-                        ).collect() {
+                        ).collect {
                             listHis += it
                             binding.recVHis.adapter!!.notifyDataSetChanged()
                         }

@@ -4,9 +4,11 @@ import android.Manifest.permission.CAMERA
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -24,6 +26,7 @@ import androidx.core.graphics.drawable.toBitmap
 import com.onix77.sklad.databinding.ActivityElementBinding
 import java.io.File
 import java.io.FileOutputStream
+import java.io.Serializable
 import java.util.*
 
 
@@ -82,7 +85,7 @@ class ElementActivity : AppCompatActivity() {
 
         imView = binding.ElImageView
 
-        el = intent.getSerializableExtra("el") as ElementDB
+        el = (intent.serializable("el") as? ElementDB)!!
 
         binding.apply {
             ElNameElTV.text = el.nameEl
@@ -187,7 +190,7 @@ class ElementActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setTitle(R.string.el_aldig_del_title)
                 .setMessage(R.string.el_aldig_del_text)
-                .setPositiveButton(android.R.string.ok) {_, _, ->
+                .setPositiveButton(android.R.string.ok) { _, _ ->
                     val dir = File(this.filesDir, "IMAGES_ELEMENTS")
                     if (!el.path_image.isNullOrEmpty() && File(dir, el.path_image!!).exists()) File(dir, el.path_image!!).delete()
                     myViewModel.insertInHistory(EntryHistory(
@@ -295,4 +298,10 @@ class ElementActivity : AppCompatActivity() {
             Toast.makeText(this, R.string.toast_El_Act_save_exception, Toast.LENGTH_LONG).show()
         }
     }
+
+    private inline fun <reified T : Serializable> Intent.serializable(key: String): T? = when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializableExtra(key, T::class.java)
+        else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
+    }
+
 }

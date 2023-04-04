@@ -4,7 +4,7 @@ import java.io.File
 
 class FileShare <T> (val list: List<T>, private val dirApp: File) {
 
-    fun createFileRest(date: String): File {
+    fun createFileRest(): File {
         list as List<ElementDB>
         val dir = File(dirApp, "SHARE_FILE")
         if (!dir.exists()) dir.mkdir()

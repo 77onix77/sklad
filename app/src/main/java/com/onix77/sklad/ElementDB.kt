@@ -3,7 +3,7 @@ package com.onix77.sklad
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.Date
+
 
 @Entity(tableName = "elements")
 data class ElementDB(

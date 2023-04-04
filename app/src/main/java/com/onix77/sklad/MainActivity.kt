@@ -78,8 +78,7 @@ class MainActivity : AppCompatActivity() {
             lifecycle.coroutineScope.launch {
                 val listAllEl = MainDB.getDB(this@MainActivity).getDao().getAll()
                 val fileShare = FileShare(listAllEl, this@MainActivity.filesDir)
-                val date= MyDate()
-                val file = fileShare.createFileRest("${date.getDate()} ${date.getTime()}")
+                val file = fileShare.createFileRest()
                 val uri = FileProvider.getUriForFile(this@MainActivity, "com.onix77.sklad.fileprovider", file)
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "text/plain"

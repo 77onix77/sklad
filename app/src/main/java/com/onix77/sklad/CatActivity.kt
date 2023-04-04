@@ -36,6 +36,7 @@ class CatActivity : AppCompatActivity() {
             list.clear()
             list += it
             binding.recVCat.adapter!!.notifyDataSetChanged()
+
         }
 
         binding.addButEl.setOnClickListener {
