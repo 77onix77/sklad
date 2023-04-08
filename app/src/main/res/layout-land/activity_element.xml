@@ -292,25 +292,4 @@
         app:layout_constraintTop_toTopOf="@+id/El_Ok_Bt"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageButton
-        android:id="@+id/elDelBt"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/El_Ok_Bt"
-        app:layout_constraintStart_toEndOf="@+id/El_unitTV"
-        app:layout_constraintTop_toTopOf="@+id/El_Ok_Bt"
-        app:srcCompat="@android:drawable/ic_delete" />
-
-    <ImageButton
-        android:id="@+id/elEditBt"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:tint="#04D616"
-        app:layout_constraintBottom_toBottomOf="@+id/elDelBt"
-        app:layout_constraintStart_toEndOf="@+id/elDelBt"
-        app:layout_constraintTop_toTopOf="@+id/elDelBt"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

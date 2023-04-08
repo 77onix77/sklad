@@ -54,7 +54,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="Остаток:"
         android:textAlignment="center"
@@ -93,30 +92,28 @@
     <Spinner
         android:id="@+id/El_spinner"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginEnd="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toBottomOf="@+id/El_NumberET"
-        app:layout_constraintEnd_toStartOf="@+id/El_NumberET"
-        app:layout_constraintTop_toTopOf="@+id/El_NumberET"
+        app:layout_constraintStart_toStartOf="@+id/El_RestTV"
+        app:layout_constraintTop_toBottomOf="@+id/El_RestTV"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/El_NumberET"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:background="#DCE7F3"
         android:ems="10"
         android:hint="Кол."
         android:inputType="number"
         android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="@+id/El_imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.466"
-        app:layout_constraintStart_toEndOf="@+id/El_imageView"
-        app:layout_constraintTop_toBottomOf="@+id/El_imageView"
+        app:layout_constraintStart_toStartOf="@+id/El_spinner"
+        app:layout_constraintTop_toBottomOf="@+id/El_spinner"
         tools:ignore="TextContrastCheck" />
 
     <LinearLayout
@@ -298,25 +295,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/El_Ok_Bt"
         app:layout_constraintVertical_bias="0.0" />
-
-    <ImageButton
-        android:id="@+id/elDelBt"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@+id/El_RestTV"
-        app:layout_constraintTop_toBottomOf="@+id/El_RestTV"
-        app:srcCompat="@android:drawable/ic_delete" />
-
-    <ImageButton
-        android:id="@+id/elEditBt"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:tint="#04D616"
-        app:layout_constraintBottom_toBottomOf="@+id/elDelBt"
-        app:layout_constraintStart_toEndOf="@+id/elDelBt"
-        app:layout_constraintTop_toTopOf="@+id/elDelBt"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

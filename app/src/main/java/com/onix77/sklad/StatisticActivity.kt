@@ -1,12 +1,16 @@
 package com.onix77.sklad
 
+import android.content.ClipData.Item
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.FileProvider
@@ -24,11 +28,16 @@ class StatisticActivity : AppCompatActivity() {
     private val  myViewModel: MyViewModel by viewModels {
         MyViewModelFactory((application as MyApplication).repository)
     }
+    private var menuItemShare: MenuItem? = null
+    private val listStat = mutableListOf<ItemStatistic>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         val listCat = mutableListOf("ВСЕ")
         val listEl = mutableListOf("ВСЕ")
@@ -79,7 +88,7 @@ class StatisticActivity : AppCompatActivity() {
             }
         }
 
-        val listStat = mutableListOf<ItemStatistic>()
+
 
 
         binding.recVHis.apply {
@@ -123,8 +132,8 @@ class StatisticActivity : AppCompatActivity() {
                             listHis += it
                             listStat.clear()
                             listStat += statCalcAll(listHis)
-                            if (listStat.isNotEmpty()) binding.sharBtHis.visibility = View.VISIBLE
-                            else binding.sharBtHis.visibility = View.GONE
+                            if (listStat.isNotEmpty()) menuItemShare?.isVisible = true
+                            else menuItemShare?.isVisible = true
                             binding.recVHis.adapter!!.notifyDataSetChanged()
                         }
                     }
@@ -140,8 +149,8 @@ class StatisticActivity : AppCompatActivity() {
                             listHis += it
                             listStat.clear()
                             listStat += statCalcCat(listHis, binding.catSpHis.selectedItem.toString())
-                            if (listStat.isNotEmpty()) binding.sharBtHis.visibility = View.VISIBLE
-                            else binding.sharBtHis.visibility = View.GONE
+                            if (listStat.isNotEmpty()) menuItemShare?.isVisible = true
+                            else menuItemShare?.isVisible = true
                             binding.recVHis.adapter!!.notifyDataSetChanged()
                         }
                     }
@@ -161,27 +170,13 @@ class StatisticActivity : AppCompatActivity() {
                                 binding.catSpHis.selectedItem.toString(),
                                 binding.ElSpHis.selectedItem.toString()
                             )
-                            if (listStat.isNotEmpty()) binding.sharBtHis.visibility = View.VISIBLE
-                            else binding.sharBtHis.visibility = View.GONE
+                            if (listStat.isNotEmpty()) menuItemShare?.isVisible = true
+                            else menuItemShare?.isVisible = true
                             binding.recVHis.adapter!!.notifyDataSetChanged()
                         }
                     }
                 }
             }
-        }
-
-        binding.sharBtHis.setOnClickListener {
-            lifecycle.coroutineScope.launch {
-                val fileShare = FileShare(listStat, this@StatisticActivity.filesDir)
-                val file = fileShare.createFileStat(binding.dateFromETHis.text.toString(), binding.dateToETHis.text.toString())
-                val uri = FileProvider.getUriForFile(this@StatisticActivity, "com.onix77.sklad.fileprovider", file)
-                val intent = Intent(Intent.ACTION_SEND)
-                intent.type = "text/plain"
-                intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                intent.putExtra(Intent.EXTRA_STREAM, uri)
-                startActivity(intent)
-            }
-
         }
     }
 
@@ -217,40 +212,31 @@ class StatisticActivity : AppCompatActivity() {
         return ItemStatistic(cat, el, plus, minus)
     }
 
-    /*private fun createFileShare(list: List<ItemStatistic>, dateFrom: String, dateTo: String): File {
-        val dir = File(this.filesDir, "SHARE_FILE")
-        if (!dir.exists()) dir.mkdir()
-        val file = File(dir, "statistic.txt")
-        file.writeText("\t**************Статистика с $dateFrom по $dateTo**************\n")
-        file.appendText("""
-            --------------------------------------------------------------------------------
-            | Название                                     | Приход (+)    | Расход (-)    |
-            ================================================================================
-        """.trimIndent())
-        file.appendText("\n")
-        val groupMap = list.groupBy { it.cat }
-        for ((k, v) in groupMap) {
-            var str = "|     $k"
-            str += " ".repeat(73 - k.length)
-            str += "|\n"
-            file.appendText(str)
-            file.appendText("--------------------------------------------------------------------------------\n")
-            for (el in v) {
-                str = "| ${el.el}"
-                str += " ".repeat(45 - el.el.length)
-                str += "|"
-                str += " ".repeat(13 - el.sumPlus.toString().length)
-                str += "+${el.sumPlus}"
-                str += " |"
-                str += " ".repeat(14 - el.sumMinus.toString().length)
-                str += "${el.sumMinus}"
-                str += " |\n"
-                file.appendText(str)
-                file.appendText("--------------------------------------------------------------------------------\n")
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.stat_menu_toolbar, menu)
+        menuItemShare = menu?.findItem(R.id.menuShare)
+        menuItemShare?.isVisible = false
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) finish()
+        if (item.itemId == menuItemShare?.itemId) {
+            lifecycle.coroutineScope.launch {
+                val fileShare = FileShare(listStat, this@StatisticActivity.filesDir)
+                val file = fileShare.createFileStat(binding.dateFromETHis.text.toString(), binding.dateToETHis.text.toString())
+                val uri = FileProvider.getUriForFile(this@StatisticActivity, "com.onix77.sklad.fileprovider", file)
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.type = "text/plain"
+                intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                intent.putExtra(Intent.EXTRA_STREAM, uri)
+                startActivity(intent)
             }
         }
-        return file
-    }*/
+        return true
+    }
+
+
 
 
 }

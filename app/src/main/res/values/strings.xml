@@ -23,10 +23,13 @@
     <string name="History_operation">История операций</string>
     <string name="from">C:</string>
     <string name="to">По:</string>
+    <string name="share">Отправить:</string>
+    <string name="delete">Удалить:</string>
+    <string name="edite">Изменить:</string>
     <string name="category">Категория:</string>
     <string name="element">Элемент</string>
     <string name="el_aldig_del_title">Удалить элемент?</string>
-    <string name="el_aldig_del_text">"Элемент будет удален безвозвратно, вы действительно хотите удалить этот элемент?"</string>
+    <string name="el_aldig_del_text">"Элемент будет удален безвозвратно!! Вы действительно хотите удалить этот элемент?"</string>
     <string name="error_input">Неверный формат ввода</string>
     <string-array name="item_spinner">
         <item>Расход (-)</item>
