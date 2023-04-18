@@ -1,6 +1,6 @@
 package com.onix77.sklad
 
-import android.content.ClipData.Item
+
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -10,11 +10,11 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.FileProvider
 import androidx.lifecycle.coroutineScope
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onix77.sklad.databinding.ActivityHistoryBinding
@@ -46,7 +46,7 @@ class StatisticActivity : AppCompatActivity() {
 
 
         lifecycle.coroutineScope.launch {
-            myViewModel.getCat().collect() {
+            myViewModel.getCat().collect {
                 listCat += it
             }
         }
@@ -76,7 +76,7 @@ class StatisticActivity : AppCompatActivity() {
 
                 if (p2 != 0) {
                     lifecycle.coroutineScope.launch {
-                        myViewModel.getNameEl(listCat[p2]).collect() {
+                        myViewModel.getNameEl(listCat[p2]).collect {
                             listEl += it
                         }
                     }
@@ -128,13 +128,15 @@ class StatisticActivity : AppCompatActivity() {
                         myViewModel.getAllDateHis(
                             binding.dateFromETHis.text.toString(),
                             binding.dateToETHis.text.toString()
-                        ).collect() {
+                        ).collect {
                             listHis += it
+                            val list = statCalcAll(listHis)
+                            val difUtil = StatDiffUtils(listStat, list)
+                            val difResult = DiffUtil.calculateDiff(difUtil)
                             listStat.clear()
-                            listStat += statCalcAll(listHis)
-                            if (listStat.isNotEmpty()) menuItemShare?.isVisible = true
-                            else menuItemShare?.isVisible = true
-                            binding.recVHis.adapter!!.notifyDataSetChanged()
+                            listStat += list
+                            menuItemShare?.isVisible = listStat.isNotEmpty()
+                            binding.recVHis.adapter?.let { it2 -> difResult.dispatchUpdatesTo(it2) }
                         }
                     }
 
@@ -145,13 +147,15 @@ class StatisticActivity : AppCompatActivity() {
                             binding.dateFromETHis.text.toString(),
                             binding.dateToETHis.text.toString(),
                             binding.catSpHis.selectedItem.toString()
-                        ).collect() {
+                        ).collect {
                             listHis += it
+                            val list = statCalcCat(listHis, binding.catSpHis.selectedItem.toString())
+                            val difUtil = StatDiffUtils(listStat, list)
+                            val difResult = DiffUtil.calculateDiff(difUtil)
                             listStat.clear()
-                            listStat += statCalcCat(listHis, binding.catSpHis.selectedItem.toString())
-                            if (listStat.isNotEmpty()) menuItemShare?.isVisible = true
-                            else menuItemShare?.isVisible = true
-                            binding.recVHis.adapter!!.notifyDataSetChanged()
+                            listStat += list
+                            menuItemShare?.isVisible = listStat.isNotEmpty()
+                            binding.recVHis.adapter?.let { it2 -> difResult.dispatchUpdatesTo(it2) }
                         }
                     }
 
@@ -163,16 +167,18 @@ class StatisticActivity : AppCompatActivity() {
                             binding.dateToETHis.text.toString(),
                             binding.catSpHis.selectedItem.toString(),
                             binding.ElSpHis.selectedItem.toString()
-                        ).collect() {
+                        ).collect {
                             listHis += it
-                            listStat.clear()
-                            listStat += statCalcEl(listHis,
+                            val list = mutableListOf(statCalcEl(listHis,
                                 binding.catSpHis.selectedItem.toString(),
                                 binding.ElSpHis.selectedItem.toString()
-                            )
-                            if (listStat.isNotEmpty()) menuItemShare?.isVisible = true
-                            else menuItemShare?.isVisible = true
-                            binding.recVHis.adapter!!.notifyDataSetChanged()
+                            ))
+                            val difUtil = StatDiffUtils(listStat, list)
+                            val difResult = DiffUtil.calculateDiff(difUtil)
+                            listStat.clear()
+                            listStat += list
+                            menuItemShare?.isVisible = listStat.isNotEmpty()
+                            binding.recVHis.adapter?.let { it2 -> difResult.dispatchUpdatesTo(it2) }
                         }
                     }
                 }

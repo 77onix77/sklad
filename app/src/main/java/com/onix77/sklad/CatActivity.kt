@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onix77.sklad.databinding.ActivityCatBinding
 import androidx.activity.viewModels
+import androidx.recyclerview.widget.DiffUtil
 
 class CatActivity : AppCompatActivity() {
 
@@ -36,28 +37,29 @@ class CatActivity : AppCompatActivity() {
         }
 
         myViewModel.getEl(cat).observe(this) {
+            val difUtil = CatDiffUtils(list, it)
+            val difResult = DiffUtil.calculateDiff(difUtil)
             list.clear()
             list += it
-            binding.recVCat.adapter!!.notifyDataSetChanged()
-
+            binding.recVCat.adapter?.let { it2 -> difResult.dispatchUpdatesTo(it2) }
         }
 
         binding.addButEl.setOnClickListener {
             val alertText = LayoutInflater.from(this).inflate(R.layout.alert_dialog_cat, null, false)
             AlertDialog.Builder(this)
-                .setTitle("Создание элемента")
+                .setTitle(R.string.create_element)
                 .setView(alertText)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     val name = alertText.findViewById<EditText>(R.id.edTNameEl).text.toString()
                     val num = alertText.findViewById<EditText>(R.id.edTNumEl).text.toString()
-                    val critNum = alertText.findViewById<EditText>(R.id.edTCritNumEl).text.toString()
-                    if (name.isNotEmpty() && num.isNotEmpty() && critNum.isNotEmpty()) {
+                    val crNum = alertText.findViewById<EditText>(R.id.edTCritNumEl).text.toString()
+                    if (name.isNotEmpty() && num.isNotEmpty() && crNum.isNotEmpty()) {
 
                         myViewModel.insertEl(ElementDB(
                             null,
                             cat, name,
                             num.toInt(),
-                            critNum.toInt()
+                            crNum.toInt()
                         ))
 
                         val date = MyDate()

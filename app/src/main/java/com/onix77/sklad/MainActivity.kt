@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.FileProvider
 import androidx.lifecycle.coroutineScope
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.onix77.sklad.databinding.ActivityMainBinding
@@ -39,9 +40,11 @@ class MainActivity : AppCompatActivity() {
 
         lifecycle.coroutineScope.launch {
             myViewModel.getCat().collect {
+                val difUtil = MainDiffUtils(listCat, it)
+                val difResult = DiffUtil.calculateDiff(difUtil)
                 listCat.clear()
                 listCat += it
-                binding.recV.adapter!!.notifyDataSetChanged()
+                binding.recV.adapter?.let { it1 -> difResult.dispatchUpdatesTo(it1) }
             }
         }
 
@@ -86,8 +89,6 @@ class MainActivity : AppCompatActivity() {
                 intent.putExtra(Intent.EXTRA_STREAM, uri)
                 startActivity(intent)
             }
-
         }
-
     }
 }

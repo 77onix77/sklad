@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 class RecAdHis(private val listHis: List<EntryHistory>):
@@ -43,5 +44,19 @@ class RecAdHis(private val listHis: List<EntryHistory>):
         val name: TextView = view.findViewById(R.id.name)
         val change: TextView = view.findViewById(R.id.change)
         val rest: TextView = view.findViewById(R.id.rest)
+    }
+}
+
+class HisDiffUtils(private val oldList:List<EntryHistory>, private val newList:List<EntryHistory>): DiffUtil.Callback() {
+    override fun getOldListSize() = oldList.size
+
+    override fun getNewListSize() = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].id == newList[newItemPosition].id
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition] == newList[newItemPosition]
     }
 }

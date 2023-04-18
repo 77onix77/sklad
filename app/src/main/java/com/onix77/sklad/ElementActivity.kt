@@ -32,6 +32,7 @@ import java.io.Serializable
 import java.util.*
 
 
+//@Suppress("SpellCheckingInspection")
 class ElementActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityElementBinding

@@ -1,16 +1,18 @@
 package com.onix77.sklad
 
 
-import android.annotation.SuppressLint
+
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.coroutineScope
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.onix77.sklad.databinding.ActivityHistoryBinding
@@ -23,11 +25,13 @@ class HistoryActivity : AppCompatActivity() {
         MyViewModelFactory((application as MyApplication).repository)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHistoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val listCat = mutableListOf("ВСЕ")
         val listEl = mutableListOf("ВСЕ")
@@ -110,32 +114,38 @@ class HistoryActivity : AppCompatActivity() {
             }
             if (dateOk) {
                 if (binding.catSpHis.selectedItemPosition == 0) {
-                    listHis.clear()
+
                     lifecycle.coroutineScope.launch {
                         myViewModel.getAllDateHis(
                             binding.dateFromETHis.text.toString(),
                             binding.dateToETHis.text.toString()
                         ).collect {
+                            val difUtil = HisDiffUtils(listHis, it)
+                            val difResult = DiffUtil.calculateDiff(difUtil)
+                            listHis.clear()
                             listHis += it
-                            binding.recVHis.adapter!!.notifyDataSetChanged()
+                            binding.recVHis.adapter?.let { it2 -> difResult.dispatchUpdatesTo(it2) }
                         }
                     }
 
                 } else if (binding.ElSpHis.selectedItemPosition == 0) {
-                    listHis.clear()
+
                     lifecycle.coroutineScope.launch {
                         myViewModel.getCatDateHis(
                             binding.dateFromETHis.text.toString(),
                             binding.dateToETHis.text.toString(),
                             binding.catSpHis.selectedItem.toString()
                         ).collect {
+                            val difUtil = HisDiffUtils(listHis, it)
+                            val difResult = DiffUtil.calculateDiff(difUtil)
+                            listHis.clear()
                             listHis += it
-                            binding.recVHis.adapter!!.notifyDataSetChanged()
+                            binding.recVHis.adapter?.let { it2 -> difResult.dispatchUpdatesTo(it2) }
                         }
                     }
 
                 } else {
-                    listHis.clear()
+
                     lifecycle.coroutineScope.launch {
                         myViewModel.getElDateHis(
                             binding.dateFromETHis.text.toString(),
@@ -143,12 +153,22 @@ class HistoryActivity : AppCompatActivity() {
                             binding.catSpHis.selectedItem.toString(),
                             binding.ElSpHis.selectedItem.toString()
                         ).collect {
+                            val difUtil = HisDiffUtils(listHis, it)
+                            val difResult = DiffUtil.calculateDiff(difUtil)
+                            listHis.clear()
                             listHis += it
-                            binding.recVHis.adapter!!.notifyDataSetChanged()
+                            binding.recVHis.adapter?.let { it2 -> difResult.dispatchUpdatesTo(it2) }
                         }
                     }
                 }
             }
         }
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) finish()
+        return true
+    }
+
 }
+

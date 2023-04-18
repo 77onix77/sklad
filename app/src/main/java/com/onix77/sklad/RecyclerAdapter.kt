@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 
@@ -38,4 +39,19 @@ class RecyclerAdapter(private val category: List<String>,  private val parent: C
         val name: TextView = view.findViewById(R.id.nameCat)
     }
 
+}
+
+
+class MainDiffUtils(private val oldList:List<String>, private val newList:List<String>): DiffUtil.Callback() {
+    override fun getOldListSize() = oldList.size
+
+    override fun getNewListSize() = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldItemPosition == newItemPosition
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition] == newList[newItemPosition]
+    }
 }

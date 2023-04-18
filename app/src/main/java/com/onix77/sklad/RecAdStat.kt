@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 class RecAdStat(private val ListStat: List<ItemStatistic>):
@@ -38,3 +39,17 @@ class RecAdStat(private val ListStat: List<ItemStatistic>):
             val minus: TextView = view.findViewById(R.id.ItStMinus)
         }
     }
+
+class StatDiffUtils(private val oldList:List<ItemStatistic>, private val newList:List<ItemStatistic>): DiffUtil.Callback() {
+    override fun getOldListSize() = oldList.size
+
+    override fun getNewListSize() = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldItemPosition == newItemPosition
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition] == newList[newItemPosition]
+    }
+}

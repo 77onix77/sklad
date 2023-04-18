@@ -1,6 +1,5 @@
 package com.onix77.sklad
 
-//import androidx.room.Delete
 
 import androidx.room.Delete
 import androidx.room.Insert
@@ -33,16 +32,13 @@ interface Dao {
     fun getEl(cat: String): Flow<List<ElementDB>>
 
     @Insert
-    suspend fun insertInHistory(item: EntryHistory)  // добавляет запись в таблицу истории
+    suspend fun insertInHistory(item: EntryHistory)
 
     @Query("SELECT element FROM elements WHERE category = :cat")
     fun getNameEl(cat: String): Flow<List<String>>
 
     @Query("SELECT element FROM elements WHERE category = :cat")
     suspend fun getNameElL(cat: String): List<String>
-
-    //@Query("SELECT * FROM history")
-    //fun getAllHis(): Flow<List<EntryHistory>>
 
     @Query("SELECT * FROM history WHERE date(date) BETWEEN date(:fromDate) AND date(:toDate)")
     fun getAllDateHis(fromDate: String, toDate: String): Flow<List<EntryHistory>>

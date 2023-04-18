@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 class RecAdCat(private val elements: List<ElementDB>, private val parent: Context) :
@@ -42,8 +43,20 @@ class RecAdCat(private val elements: List<ElementDB>, private val parent: Contex
     class ElViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val name: TextView = view.findViewById(R.id.nameElTV)
         val number: TextView = view.findViewById(R.id.numberElTV)
-
     }
 
+}
 
+class CatDiffUtils(private val oldList:List<ElementDB>, private val newList:List<ElementDB>): DiffUtil.Callback() {
+    override fun getOldListSize() = oldList.size
+
+    override fun getNewListSize() = newList.size
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition].id == newList[newItemPosition].id
+    }
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return oldList[oldItemPosition] == newList[newItemPosition]
+    }
 }
