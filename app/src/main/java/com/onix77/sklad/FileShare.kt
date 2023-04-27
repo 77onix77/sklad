@@ -2,6 +2,7 @@ package com.onix77.sklad
 
 import java.io.File
 
+@Suppress("SpellCheckingInspection", "UNCHECKED_CAST")
 class FileShare <T> (val list: List<T>, private val dirApp: File) {
 
     fun createFileRest(): File {

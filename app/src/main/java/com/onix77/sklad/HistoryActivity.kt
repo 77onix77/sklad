@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -33,8 +34,8 @@ class HistoryActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val listCat = mutableListOf("ВСЕ")
-        val listEl = mutableListOf("ВСЕ")
+        val listCat = mutableListOf(getString(R.string.all))
+        val listEl = mutableListOf(getString(R.string.all))
 
 
         lifecycle.coroutineScope.launch {
@@ -61,7 +62,7 @@ class HistoryActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 listEl.apply {
                     clear()
-                    add("ВСЕ")
+                    add(getString(R.string.all))
                 }
 
                 binding.ElSpHis.setSelection(0)
@@ -89,15 +90,15 @@ class HistoryActivity : AppCompatActivity() {
             addItemDecoration(DividerItemDecoration(
                 this@HistoryActivity, DividerItemDecoration.VERTICAL).apply {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        setDrawable(getDrawable(R.drawable.divider)!!)
+                        setDrawable(AppCompatResources.getDrawable(this@HistoryActivity, R.drawable.divider)!!)
                     }
-            }
+                }
             )
         }
 
         val date = MyDate()
 
-        binding.dateFromETHis.setText(date.getBeginMounth())
+        binding.dateFromETHis.setText(date.getBeginMount())
         binding.dateToETHis.setText(date.getDate())
 
         binding.okBtHis.setOnClickListener {

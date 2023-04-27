@@ -12,7 +12,7 @@ class MyDate {
 
     fun getTime():String = timeFormat.format(Clock.System.now().toEpochMilliseconds())
 
-    fun getBeginMounth(): String {
+    fun getBeginMount(): String {
         val date = dateFormat.format(Clock.System.now().toEpochMilliseconds())
         return date.substring(0, 8) + "01"
     }

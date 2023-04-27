@@ -33,6 +33,7 @@ import java.util.*
 
 
 //@Suppress("SpellCheckingInspection")
+@Suppress("SpellCheckingInspection")
 class ElementActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityElementBinding
@@ -130,10 +131,10 @@ class ElementActivity : AppCompatActivity() {
 
         // установка изображения элемента(алертдиалог с выбором камеры или галереи)
         imView.setOnClickListener {
-            val item = arrayOf("из Галереи", "с Камеры")
+            val item = arrayOf(getString(R.string.from_gal), getString(R.string.from_cam))
             val alBil = AlertDialog.Builder(this)
             alBil.apply {
-                setTitle("Изменить изображение")
+                setTitle(getString(R.string.edite_image))
                 setItems(item) {_, i ->
                     if (i == 1) {
                         if (ContextCompat.checkSelfPermission(this@ElementActivity, CAMERA) == PackageManager.PERMISSION_GRANTED) {
@@ -251,7 +252,7 @@ class ElementActivity : AppCompatActivity() {
                     date.getTime(),
                     el.nameCat,
                     el.nameEl,
-                    "удален",
+                    getString(R.string.del),
                     el.number
                 ))
                 myViewModel.delete(el)
@@ -271,7 +272,7 @@ class ElementActivity : AppCompatActivity() {
         num.setText(el.number.toString())
         critNum.setText(el.criticalRest.toString())
         AlertDialog.Builder(this)
-            .setTitle("Изменение элемента")
+            .setTitle(getString(R.string.edite_el))
             .setView(alertText)
             .setPositiveButton(android.R.string.ok) { _, _ ->
 
@@ -285,7 +286,8 @@ class ElementActivity : AppCompatActivity() {
                         el.nameCat,
                         name.text.toString(),
                         num.text.toString().toInt(),
-                        critNum.text.toString().toInt()
+                        critNum.text.toString().toInt(),
+                        el.path_image
                     ))
 
                     binding.apply {
@@ -301,7 +303,7 @@ class ElementActivity : AppCompatActivity() {
                         date.getTime(),
                         el.nameCat,
                         el.nameEl,
-                        "до изменения",
+                        getString(R.string.before_edite),
                         el.number
                     ))
 
@@ -311,7 +313,7 @@ class ElementActivity : AppCompatActivity() {
                         date.getTime(),
                         el.nameCat,
                         name.text.toString(),
-                        "после изменения",
+                        getString(R.string.after_edite),
                         num.text.toString().toInt()
                     ))
                     finish()

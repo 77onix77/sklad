@@ -12,6 +12,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.FileProvider
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.DiffUtil
@@ -22,6 +23,7 @@ import kotlinx.coroutines.launch
 
 
 
+@Suppress("SpellCheckingInspection")
 class StatisticActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHistoryBinding
@@ -39,10 +41,10 @@ class StatisticActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
-        val listCat = mutableListOf("ВСЕ")
-        val listEl = mutableListOf("ВСЕ")
+        val listCat = mutableListOf(getString(R.string.all))
+        val listEl = mutableListOf(getString(R.string.all))
 
-        binding.titleTVStat.text = "Статистика за период"
+        binding.titleTVStat.text = getString(R.string.statistic_for_period)
 
 
         lifecycle.coroutineScope.launch {
@@ -69,7 +71,7 @@ class StatisticActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 listEl.apply {
                     clear()
-                    add("ВСЕ")
+                    add(getString(R.string.all))
                 }
 
                 binding.ElSpHis.setSelection(0)
@@ -97,7 +99,7 @@ class StatisticActivity : AppCompatActivity() {
             addItemDecoration(DividerItemDecoration(
                 this@StatisticActivity, DividerItemDecoration.VERTICAL).apply {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    setDrawable(getDrawable(R.drawable.divider)!!)
+                    setDrawable(AppCompatResources.getDrawable(this@StatisticActivity, R.drawable.divider)!!)
                 }
             }
             )
@@ -105,7 +107,7 @@ class StatisticActivity : AppCompatActivity() {
 
         val date = MyDate()
 
-        binding.dateFromETHis.setText(date.getBeginMounth())
+        binding.dateFromETHis.setText(date.getBeginMount())
         binding.dateToETHis.setText(date.getDate())
 
         binding.okBtHis.setOnClickListener {

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">sklad</string>
     <string name="add">add</string>
-    <string name="del">удален</string>
+    <string name="del">удалён</string>
     <string name="name_category">Название категории</string>
     <string name="no_tile">Не введено название категории</string>
     <string name="add_it">add</string>
@@ -34,6 +34,13 @@
     <string name="create_element">Создание элемента</string>
     <string name="from_gal">из Галереи</string>
     <string name="from_cam">с Камеры</string>
+    <string name="edite_image">Изменить изображение</string>
+    <string name="edite_el">Изменение элемента</string>
+    <string name="before_edite">до изменения</string>
+    <string name="after_edite">после изменения</string>
+    <string name="input_title_cat">Введите название категории</string>
+    <string name="statistic_for_period">Статистика за период</string>
+    <string name="all">ВСЕ</string>
     <string-array name="item_spinner">
         <item>Расход (-)</item>
         <item>Приход (+)</item>

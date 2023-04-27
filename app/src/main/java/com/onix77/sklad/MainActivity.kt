@@ -18,6 +18,7 @@ import com.onix77.sklad.databinding.ActivityMainBinding
 import kotlinx.coroutines.launch
 
 
+@Suppress("SpellCheckingInspection")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         binding.addBut.setOnClickListener {
             val alertText = LayoutInflater.from(this).inflate(R.layout.alert_dialog_main, null, false)
             AlertDialog.Builder(this)
-                .setTitle("Введите название категории")
+                .setTitle(getString(R.string.input_title_cat))
                 .setView(alertText)
                 .setPositiveButton(android.R.string.ok) { _, _ ->
                     val text = alertText.findViewById<EditText>(R.id.edTNameCat).text.toString()

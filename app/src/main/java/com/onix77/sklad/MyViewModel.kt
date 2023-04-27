@@ -18,7 +18,7 @@ class MyViewModel(private val repository: Repository) :ViewModel() {
 
     fun getEl(cat: String): LiveData<List<ElementDB>> = repository.getEl(cat).asLiveData()
 
-    fun getElFlow(cat: String) = repository.getEl(cat)
+    //fun getElFlow(cat: String) = repository.getEl(cat)
 
     fun updateEl(elementDB: ElementDB) {
         viewModelScope.launch {
