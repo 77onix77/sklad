@@ -13,8 +13,9 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-
 import com.onix77.sklad.databinding.ActivityMainBinding
+import com.yandex.mobile.ads.banner.AdSize
+import com.yandex.mobile.ads.common.AdRequest
 import kotlinx.coroutines.launch
 
 
@@ -31,7 +32,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val listCat= mutableListOf<String>()
+        binding.bannerYandex.setAdUnitId("demo-banner-yandex")
+        binding.bannerYandex.setAdSize(AdSize.stickySize(300))
+        val adRequest = AdRequest.Builder().build()
+        binding.bannerYandex.loadAd(adRequest)
+
+        val listCat = mutableListOf<String>()
 
 
         binding.recV.apply {

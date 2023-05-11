@@ -12,23 +12,30 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="#00FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/historyBt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/bannerYandex">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <com.yandex.mobile.ads.banner.BannerAdView
+        android:id="@+id/bannerYandex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/historyBt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
-        android:tint="#0A0A0A"
+        app:tint="#0A0A0A"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toStartOf="@id/statBut"
         app:layout_constraintHorizontal_chainStyle="spread"
@@ -42,7 +49,7 @@
         android:layout_height="wrap_content"
         android:background="#00FFFFFF"
         android:contentDescription="statistic"
-        android:tint="#0A0A0A"
+        app:tint="#0A0A0A"
         app:layout_constraintEnd_toStartOf="@+id/addBut"
         app:layout_constraintStart_toEndOf="@+id/historyBt"
         app:layout_constraintTop_toTopOf="@+id/historyBt"
